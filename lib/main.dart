@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mealdbapp/view/categories/cubit/categories_cubit.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import 'core/init/di/di.dart';
@@ -19,7 +20,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveSizer(builder: (context, orientation, screenType) {
       return MultiBlocProvider(
-          providers: [],
+          providers: [
+            BlocProvider(
+              create: (context) => CategoriesCubit(),
+            ),
+          ],
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
             onGenerateRoute: NavigationRoute.instance.generateRoute,

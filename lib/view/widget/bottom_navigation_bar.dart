@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/constants/themes/colors.dart';
 import '../../utils/text_styles.dart';
+import '../categories/view/categories.dart';
 
 class Tabbar extends StatefulWidget {
   const Tabbar({super.key});
@@ -22,10 +23,7 @@ class _TabbarState extends State<Tabbar> {
       'Favori',
       style: optionStyle,
     ),
-    Text(
-      'Category',
-      style: optionStyle,
-    ),
+    CategoriesScreen(),
   ];
 
   void _onItemTapped(int index) {
