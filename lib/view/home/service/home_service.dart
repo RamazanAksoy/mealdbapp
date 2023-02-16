@@ -3,6 +3,7 @@ import '../../../core/constants/endpoints/end_points.dart';
 import '../../../core/constants/enums/http_request_enum.dart';
 import '../../../core/init/network/ICoreDio.dart';
 import '../../../core/init/network/network_manager.dart';
+import '../model/categories/res_categories.dart';
 import '../model/populer-items/res_populer_items.dart';
 import '../model/random-food/res_food_details.dart';
 
@@ -22,6 +23,15 @@ class HomeService {
     final response = await networkManager!.send<ResPopulerItems, ResPopulerItems>(
       EndPoints.getPopulerItems,
       parseModel: ResPopulerItems(),
+      type: HttpTypes.GET,
+    );
+    return response;
+  }
+
+  Future<IResponseModel<ResCategories>> getCategories() async {
+    final response = await networkManager!.send<ResCategories, ResCategories>(
+      EndPoints.getCategories,
+      parseModel: ResCategories(),
       type: HttpTypes.GET,
     );
     return response;
