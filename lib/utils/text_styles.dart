@@ -4,7 +4,8 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../core/constants/themes/colors.dart';
 
 class Styles {
-  static TextStyle smallFontStyle({double? fontSize, Color? color, double? height}) =>
+  static TextStyle smallFontStyle(
+          {double? fontSize, Color? color, double? height}) =>
       GoogleFonts.tinos(
         letterSpacing: 0.7,
         fontSize: fontSize ?? 13.5.sp,
@@ -13,7 +14,8 @@ class Styles {
         height: height ?? 1.24,
       );
 
-  static TextStyle normalFontStyle({double? fontSize, Color? color, double? height}) =>
+  static TextStyle normalFontStyle(
+          {double? fontSize, Color? color, double? height}) =>
       GoogleFonts.tinos(
         letterSpacing: 0.7,
         fontSize: fontSize ?? 15.sp,
@@ -22,7 +24,8 @@ class Styles {
         height: height ?? 1.24,
       );
 
-  static TextStyle largeFontStyle({double? fontSize, Color? color, double? height}) =>
+  static TextStyle largeFontStyle(
+          {double? fontSize, Color? color, double? height}) =>
       GoogleFonts.tinos(
         letterSpacing: 0.7,
         fontSize: fontSize ?? 18.sp,
@@ -30,8 +33,18 @@ class Styles {
         fontWeight: FontWeight.normal,
         height: height ?? 1.24,
       );
+      static TextStyle largeWhiteFontStyle(
+          {double? fontSize, Color? color, double? height}) =>
+      GoogleFonts.tinos(
+        letterSpacing: 0.7,
+        fontSize: fontSize ?? 21.5.sp,
+        color: color ?? AppColors.white,
+        fontWeight: FontWeight.normal,
+        height: height ?? 1.24,
+      );
 
-  static TextStyle smallBoldFontStyle({double? fontSize, Color? color, double? height}) =>
+  static TextStyle smallBoldFontStyle(
+          {double? fontSize, Color? color, double? height}) =>
       GoogleFonts.tinos(
         letterSpacing: 0.7,
         fontSize: fontSize ?? 13.5.sp,
@@ -40,7 +53,8 @@ class Styles {
         height: height ?? 1.24,
       );
 
-  static TextStyle normalBoldFontStyle({double? fontSize, Color? color, double? height}) =>
+  static TextStyle normalBoldFontStyle(
+          {double? fontSize, Color? color, double? height}) =>
       GoogleFonts.tinos(
         letterSpacing: 0.7,
         fontSize: fontSize ?? 15.sp,
@@ -49,7 +63,8 @@ class Styles {
         height: height ?? 1.24,
       );
 
-  static TextStyle largeBoldFontStyle({double? fontSize, Color? color, double? height}) =>
+  static TextStyle largeBoldFontStyle(
+          {double? fontSize, Color? color, double? height}) =>
       GoogleFonts.tinos(
         fontSize: fontSize ?? 19.sp,
         letterSpacing: 1.3,
