@@ -63,6 +63,16 @@ class Styles {
         height: height ?? 1.24,
       );
 
+  static TextStyle normalWhiteBoldFontStyle(
+          {double? fontSize, Color? color, double? height}) =>
+      GoogleFonts.tinos(
+        letterSpacing: 0.7,
+        fontSize: fontSize ?? 16.sp,
+        color: color ?? AppColors.white,
+        fontWeight: FontWeight.w600,
+        height: height ?? 1.24,
+      );    
+
   static TextStyle largeBoldFontStyle(
           {double? fontSize, Color? color, double? height}) =>
       GoogleFonts.tinos(

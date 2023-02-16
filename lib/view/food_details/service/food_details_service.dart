@@ -10,13 +10,14 @@ import '../model/random-food/res_food_details.dart';
 class FoodDetailsService {
   ICoreDioNullSafety? networkManager = NetworkManager.instance!.coreDio;
 
-  Future<IResponseModel<ResFoodDetails>> getResFoodDetailsWithId(int foodid) async {
-    final response = await networkManager!.send<ResFoodDetails, ResFoodDetails>(
+  Future<IResponseModel<ResFoodDetails>?> getResFoodDetailsWithId(int foodid) async {
+    final response = await networkManager?.send<ResFoodDetails, ResFoodDetails>(
       EndPoints.getFoodDetailsWithId,
       parseModel: ResFoodDetails(),
       queryParameters: {"i": foodid},
       type: HttpTypes.GET,
     );
+    print(response?.data?.meals.toString());
     return response;
   }
 }

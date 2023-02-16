@@ -6,7 +6,9 @@ import '../service/food_details_service.dart';
 import 'food_details_state.dart';
 
 class FoodDetailsCubit extends Cubit<FoodDetailsState> {
-  FoodDetailsCubit() : super(FoodDetailsState());
+  FoodDetailsCubit() : super(FoodDetailsState()){
+    loadFoodDetails(999999999);
+  }
 
   final FoodDetailsService api = FoodDetailsService();
 
@@ -16,12 +18,19 @@ class FoodDetailsCubit extends Cubit<FoodDetailsState> {
         foodDetailsStatus: ApiRequest.requestInProgress,
       ));
 
-      final response = (await api.getResFoodDetailsWithId(foodId)).data;
-
-      emit(state.copyWith(
+      final response = (await api.getResFoodDetailsWithId(foodId))?.data;
+      print(response);
+      if (response?.meals != null) {
+        emit(state.copyWith(
         foodDetailsStatus: ApiRequest.requestSuccess,
         foodDetails: response,
       ));
+      }
+      else{emit(state.copyWith(
+        foodDetailsStatus: ApiRequest.requestFailure,
+      ));}
+      
+      
     } catch (e) {
       emit(state.copyWith(
         foodDetailsStatus: ApiRequest.requestFailure,
