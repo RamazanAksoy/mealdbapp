@@ -19,6 +19,7 @@ class FoodDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.white,
       appBar: AppBar(
         toolbarHeight: 0,
         backgroundColor: AppColors.red,
@@ -156,24 +157,29 @@ class FoodDetailsScreen extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
-                                      Container(
-                                        height: 6.h,
-                                        width: 65.w,
-                                        margin: EdgeInsets.only(right: 2.w),
-                                        decoration: youtubeBoxDecoration(),
-                                        child: Center(
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: [
-                                              Icon(
-                                                Icons.smart_display_outlined,
-                                                size: 5.5.h,
-                                                color: AppColors.white,
-                                              ),
-                                              SizedBox(width: 1.w,),
-                                              Text("Watch the Tutorial Video",style: Styles.normalWhiteBoldFontStyle(),)
-                                            ],
+                                      GestureDetector(
+                                        onTap: () {
+                                          context.read<FoodDetailsCubit>().urlLauncher(Uri());
+                                        },
+                                        child: Container(
+                                          height: 6.h,
+                                          width: 65.w,
+                                          margin: EdgeInsets.only(right: 2.w),
+                                          decoration: youtubeBoxDecoration(),
+                                          child: Center(
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                Icon(
+                                                  Icons.smart_display_outlined,
+                                                  size: 5.5.h,
+                                                  color: AppColors.white,
+                                                ),
+                                                SizedBox(width: 1.w,),
+                                                Text("Watch the Tutorial Video",style: Styles.normalWhiteBoldFontStyle(),)
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),
