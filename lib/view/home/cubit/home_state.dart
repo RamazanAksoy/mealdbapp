@@ -21,7 +21,6 @@ class HomeState {
   HomeState copyWith({
     ResFoodDetails? foodDetails,
     ApiRequest? homeStatus,
-    Set<int>? cartIds,
     ResPopulerItems? populerItems,
     ResCategories? categories,
   }) {

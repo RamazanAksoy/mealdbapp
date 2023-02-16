@@ -5,7 +5,9 @@ import '../service/home_service.dart';
 import 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
-  HomeCubit() : super(const HomeState());
+  HomeCubit() : super(const HomeState()) {
+    loadfoodDetails();
+  }
 
   final HomeService apiHome = HomeService();
 
@@ -15,9 +17,9 @@ class HomeCubit extends Cubit<HomeState> {
         homeStatus: ApiRequest.requestInProgress,
       ));
 
-      final responseRandomFood = (await apiHome.getRandomFood()).data;
-      final responsePopulerItems = (await apiHome.getPopulerItems()).data;
-      final responseCategories = (await apiHome.getCategories()).data;
+      final responseRandomFood = (await apiHome.getRandomFood())?.data;
+      final responsePopulerItems = (await apiHome.getPopulerItems())?.data;
+      final responseCategories = (await apiHome.getCategories())?.data;
 
       emit(state.copyWith(
         homeStatus: ApiRequest.requestSuccess,

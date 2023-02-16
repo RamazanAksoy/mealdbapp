@@ -10,8 +10,8 @@ import '../model/random-food/res_food_details.dart';
 class HomeService {
   ICoreDioNullSafety? networkManager = NetworkManager.instance!.coreDio;
 
-  Future<IResponseModel<ResFoodDetails>> getRandomFood() async {
-    final response = await networkManager!.send<ResFoodDetails, ResFoodDetails>(
+  Future<IResponseModel<ResFoodDetails>?> getRandomFood() async {
+    final response = await networkManager?.send<ResFoodDetails, ResFoodDetails>(
       EndPoints.getRandom,
       parseModel: ResFoodDetails(),
       type: HttpTypes.GET,
@@ -19,8 +19,8 @@ class HomeService {
     return response;
   }
 
-  Future<IResponseModel<ResPopulerItems>> getPopulerItems() async {
-    final response = await networkManager!.send<ResPopulerItems, ResPopulerItems>(
+  Future<IResponseModel<ResPopulerItems>?> getPopulerItems() async {
+    final response = await networkManager?.send<ResPopulerItems, ResPopulerItems>(
       EndPoints.getPopulerItems,
       parseModel: ResPopulerItems(),
       type: HttpTypes.GET,
@@ -28,8 +28,8 @@ class HomeService {
     return response;
   }
 
-  Future<IResponseModel<ResCategories>> getCategories() async {
-    final response = await networkManager!.send<ResCategories, ResCategories>(
+  Future<IResponseModel<ResCategories>?> getCategories() async {
+    final response = await networkManager?.send<ResCategories, ResCategories>(
       EndPoints.getCategories,
       parseModel: ResCategories(),
       type: HttpTypes.GET,
