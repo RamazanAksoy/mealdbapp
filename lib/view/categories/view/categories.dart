@@ -9,19 +9,8 @@ import '../../widget/loading.dart';
 import '../cubit/categories_cubit.dart';
 import '../cubit/categories_state.dart';
 
-class CategoriesScreen extends StatefulWidget {
+class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen({super.key});
-
-  @override
-  State<CategoriesScreen> createState() => _CategoriesScreenState();
-}
-
-class _CategoriesScreenState extends State<CategoriesScreen> {
-  @override
-  void initState() {
-    context.read<CategoriesCubit>().loadcategories();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,19 +26,22 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 
   SizedBox buildSizedBox() {
     return SizedBox(
-      height: 84.h,
-      child: BlocBuilder<CategoriesCubit, CategoriesState>(builder: (context, state) {
-        return state.categoriesStatus == ApiRequest.requestInProgress
-            ? const Loading()
-            : state.categoriesStatus == ApiRequest.requestSuccess
-                ? buildGridView(state)
-                : ErrorApi(
-                    onRety: () {
-                      context.read<CategoriesCubit>().loadcategories();
-                    },
-                  );
-      }),
-    );
+        height: 84.h,
+        child: BlocProvider<CategoriesCubit>(
+            create: (context) => CategoriesCubit(),
+            child: BlocConsumer<CategoriesCubit, CategoriesState>(
+                listener: (context, state) {},
+                builder: (context, state) {
+                  return state.categoriesStatus == ApiRequest.requestInProgress
+                      ? const Loading()
+                      : state.categoriesStatus == ApiRequest.requestSuccess
+                          ? buildGridView(state)
+                          : ErrorApi(
+                              onRety: () {
+                                context.read<CategoriesCubit>().loadcategories();
+                              },
+                            );
+                })));
   }
 
   Container buildAppBar(BuildContext context) {
