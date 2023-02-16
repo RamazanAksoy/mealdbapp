@@ -5,7 +5,9 @@ import '../service/categories_service.dart';
 import 'categories_state.dart';
 
 class CategoriesCubit extends Cubit<CategoriesState> {
-  CategoriesCubit() : super(CategoriesState());
+  CategoriesCubit() : super(CategoriesState()) {
+    loadcategories();
+  }
 
   final CategoriesService api = CategoriesService();
 
@@ -15,7 +17,7 @@ class CategoriesCubit extends Cubit<CategoriesState> {
         categoriesStatus: ApiRequest.requestInProgress,
       ));
 
-      final response = (await api.getCategories()).data;
+      final response = (await api.getCategories())?.data;
 
       emit(state.copyWith(
         categoriesStatus: ApiRequest.requestSuccess,
