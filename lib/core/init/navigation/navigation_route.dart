@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mealdbapp/view/search/view/search.dart';
 import 'package:mealdbapp/view/food_details/view/food_details.dart';
 
 import '../../../view/categories_details/view/categories_detail.dart';
@@ -14,6 +15,11 @@ class NavigationRoute {
   Route<dynamic> generateRoute(RouteSettings args) {
     switch (args.name) {
       case NavigationConstants.DEFAULT:
+        return normalNavigate(SearchScreen(), NavigationConstants.DEFAULT);
+      /*
+      case NavigationConstants.TEST_VIEW:
+        return normalNavigate(TestsView(), NavigationConstants.TEST_VIEW);
+
         return normalNavigate(const Tabbar(), NavigationConstants.DEFAULT);
 
       case NavigationConstants.CATEGORY_DETAILS:

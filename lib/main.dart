@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mealdbapp/view/categories/cubit/categories_cubit.dart';
+import 'package:mealdbapp/view/search/cubit/search_cubit.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import 'core/init/di/di.dart';
