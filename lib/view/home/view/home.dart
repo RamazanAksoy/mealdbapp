@@ -40,7 +40,11 @@ class HomeScreen extends StatelessWidget {
             "Home",
             style: Styles.largeBoldFontStyle(),
           ),
-          const Icon(Icons.search),
+          GestureDetector(
+              onTap: () {
+                NavigationService.instance.navigateToPage(path: NavigationConstants.SEARCH);
+              },
+              child: const Icon(Icons.search)),
         ],
       ),
     );

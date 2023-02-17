@@ -103,6 +103,17 @@ class FoodDetailsScreen extends StatelessWidget {
                                     ],
                                   ),
                                 ),
+                                Positioned(
+                                  child: IconButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      icon: Icon(
+                                        Icons.arrow_back_ios_rounded,
+                                        size: 5.w,
+                                        color: Colors.white,
+                                      )),
+                                ),
                               ],
                             ),
                             Padding(

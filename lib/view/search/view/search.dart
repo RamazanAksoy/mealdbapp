@@ -85,6 +85,15 @@ class SearchScreen extends StatelessWidget {
       padding: EdgeInsets.only(left: 5.w, top: MediaQuery.of(context).padding.top),
       height: 10.h,
       child: Row(children: [
+        IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.arrow_back_ios_rounded,
+              size: 4.5.w,
+              color: Colors.blueGrey,
+            )),
         Text(
           categoryName,
           style: Styles.largeBoldFontStyle(),
