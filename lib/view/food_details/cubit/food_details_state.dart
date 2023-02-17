@@ -1,6 +1,8 @@
 
+import 'package:mealdbapp/view/home/model/random-food/res_food_details.dart';
+
 import '../../../core/constants/enums/reques.dart';
-import '../model/random-food/res_food_details.dart';
+
 
 class FoodDetailsState {
   FoodDetailsState({

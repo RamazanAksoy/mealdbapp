@@ -13,7 +13,7 @@ class NavigationRoute {
   Route<dynamic> generateRoute(RouteSettings args) {
     switch (args.name) {
       case NavigationConstants.DEFAULT:
-        return normalNavigate(const Tabbar(), NavigationConstants.DEFAULT);
+        return normalNavigate( FoodDetailsScreen(), NavigationConstants.FOOD_DETAIL);
         /*
       case NavigationConstants.BUY_VIEW:
         return normalNavigate(const BuyView(), NavigationConstants.BUY_VIEW);

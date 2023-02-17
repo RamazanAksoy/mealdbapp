@@ -1,5 +1,9 @@
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mealdbapp/core/constants/enums/reques.dart';
+import 'package:mealdbapp/core/init/cache/locale_manager.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../service/food_details_service.dart';
@@ -12,7 +16,7 @@ class FoodDetailsCubit extends Cubit<FoodDetailsState> {
   }
 
   final FoodDetailsService api = FoodDetailsService();
-
+  int id= 5772;
   Future<void> loadFoodDetails(int foodId) async {
     try {
       emit(state.copyWith(
@@ -47,5 +51,15 @@ class FoodDetailsCubit extends Cubit<FoodDetailsState> {
       
     }
   }
+   void favButton(id) {
+    LocaleManager localeManager = LocaleManager.instance;
+    if (localeManager.setStringValue('fav', jsonEncode(state.foodDetails?.meals?[0].idMeal ?? "")) == id) {
+      
+    }else{
+
+    }
+   }
+
   
+
 }
