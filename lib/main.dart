@@ -18,13 +18,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResponsiveSizer(builder: (context, orientation, screenType) {
-      return MultiBlocProvider(
-          providers: [],
-          child: MaterialApp(
-            debugShowCheckedModeBanner: false,
-            onGenerateRoute: NavigationRoute.instance.generateRoute,
-            navigatorKey: NavigationService.instance.navigatorKey,
-          ));
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        onGenerateRoute: NavigationRoute.instance.generateRoute,
+        navigatorKey: NavigationService.instance.navigatorKey,
+      );
     });
   }
 }

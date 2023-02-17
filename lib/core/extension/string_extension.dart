@@ -8,6 +8,10 @@ extension ImagePngPathExtension on String {
   String get toPNG => '${ApplicationConstants.IMAGE_ASSET_PATH}$this.png';
 }
 
+extension ImageNetworkIngredientsPathExtension on String {
+  String get toImageNetworkIngredients => '${ApplicationConstants.INGREDIENTS_ASSET_PATH}$this.png';
+}
+
 extension StringExtention on String {
   String getFirstWords(String? sentence, int wordCounts) {
     try {
