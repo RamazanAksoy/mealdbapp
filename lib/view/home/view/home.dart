@@ -99,15 +99,21 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Container buildRandomFood(HomeState state) {
-    return Container(
-      margin: EdgeInsets.only(top: 1.h, bottom: 3.h),
-      height: 18.h,
-      width: 100.w,
-      decoration: customBoxDecoration(
-          borderRadius: 5.w,
-          image: NetworkImage(state.foodDetails!.meals![0].strMealThumb!),
-          fit: BoxFit.cover),
+  Widget buildRandomFood(HomeState state) {
+    return GestureDetector(
+      onTap: () {
+        NavigationService.instance.navigateToPage(
+            path: NavigationConstants.FOOD_DETAIL, data: state.foodDetails!.meals![0].idMeal!);
+      },
+      child: Container(
+        margin: EdgeInsets.only(top: 1.h, bottom: 3.h),
+        height: 18.h,
+        width: 100.w,
+        decoration: customBoxDecoration(
+            borderRadius: 5.w,
+            image: NetworkImage(state.foodDetails!.meals![0].strMealThumb!),
+            fit: BoxFit.cover),
+      ),
     );
   }
 
