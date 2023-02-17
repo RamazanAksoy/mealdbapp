@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../core/constants/enums/reques.dart';
+import '../../../core/constants/navigation/navigation_constants.dart';
+import '../../../core/init/navigation/navigation_service.dart';
 import '../../../utils/text_styles.dart';
 import '../../widget/error.dart';
 import '../../widget/loading.dart';
@@ -63,29 +65,36 @@ class CategoriesScreen extends StatelessWidget {
       shrinkWrap: true,
       itemCount: state.categories!.categories!.length,
       itemBuilder: (context, index) {
-        return Container(
-          padding: EdgeInsets.all(20.sp),
-          margin: EdgeInsets.all(18.sp),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10.sp),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 0.1,
-                blurRadius: 1.5,
-                offset: const Offset(0, 0), // changes position of shadow
-              ),
-            ],
+        return GestureDetector(
+          onTap: () {
+            NavigationService.instance.navigateToPage(
+                path: NavigationConstants.CATEGORY_DETAILS,
+                data: state.categories!.categories![index].strCategory!);
+          },
+          child: Container(
+            padding: EdgeInsets.all(20.sp),
+            margin: EdgeInsets.all(18.sp),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10.sp),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 0.1,
+                  blurRadius: 1.5,
+                  offset: const Offset(0, 0), // changes position of shadow
+                ),
+              ],
+            ),
+            child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+              Image.network(state.categories!.categories![index].strCategoryThumb!),
+              Text(
+                state.categories!.categories![index].strCategory!,
+                style: Styles.normalBoldFontStyle(),
+              )
+            ]),
           ),
-          child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-            Image.network(state.categories!.categories![index].strCategoryThumb!),
-            Text(
-              state.categories!.categories![index].strCategory!,
-              style: Styles.normalBoldFontStyle(),
-            )
-          ]),
         );
       },
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
