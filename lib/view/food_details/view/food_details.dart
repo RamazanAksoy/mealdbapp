@@ -27,7 +27,7 @@ class FoodDetailsScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: BlocProvider(
-          create: (context) => FoodDetailsCubit(),
+          create: (context) => FoodDetailsCubit(foodId ?? 0),
           child: BlocConsumer<FoodDetailsCubit, FoodDetailsState>(
             listener: (context, state) {},
             builder: (context, state) {

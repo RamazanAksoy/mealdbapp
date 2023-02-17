@@ -4,6 +4,8 @@ import 'package:mealdbapp/core/extension/string_extension.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../core/constants/enums/reques.dart';
+import '../../../core/constants/navigation/navigation_constants.dart';
+import '../../../core/init/navigation/navigation_service.dart';
 import '../../../utils/box_decoration.dart';
 import '../../../utils/text_styles.dart';
 
@@ -144,16 +146,23 @@ class HomeScreen extends StatelessWidget {
         shrinkWrap: true,
         itemCount: state.categories!.categories!.length,
         itemBuilder: (context, index) {
-          return Container(
-            padding: EdgeInsets.only(top: 20.sp, right: 15.sp, left: 15.sp),
-            alignment: Alignment.center,
-            child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-              Image.network(state.categories!.categories![index].strCategoryThumb!),
-              Text(
-                state.categories!.categories![index].strCategory!,
-                style: Styles.normalBoldFontStyle(fontSize: 16.sp),
-              )
-            ]),
+          return GestureDetector(
+            onTap: () {
+              NavigationService.instance.navigateToPage(
+                  path: NavigationConstants.CATEGORY_DETAILS,
+                  data: state.categories!.categories![index].strCategory!);
+            },
+            child: Container(
+              padding: EdgeInsets.only(top: 20.sp, right: 15.sp, left: 15.sp),
+              alignment: Alignment.center,
+              child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+                Image.network(state.categories!.categories![index].strCategoryThumb!),
+                Text(
+                  state.categories!.categories![index].strCategory!,
+                  style: Styles.normalBoldFontStyle(fontSize: 16.sp),
+                )
+              ]),
+            ),
           );
         },
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
