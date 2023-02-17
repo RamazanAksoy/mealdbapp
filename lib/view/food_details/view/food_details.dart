@@ -111,7 +111,8 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                                           
                                           setState(() {
                                             isFavorite = false;
-                                          });
+                                          }
+                                          );
                                         } else {
                                           mealsListShared?.add(
                                               state.foodDetails!.meals![0]);

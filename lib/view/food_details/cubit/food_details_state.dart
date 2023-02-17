@@ -13,6 +13,8 @@ class FoodDetailsState {
   final ResFoodDetails? foodDetails;
   final ApiRequest foodDetailsStatus;
 
+  set isFavorite(bool isFavorite) {}
+
   FoodDetailsState copyWith({
     ResFoodDetails? foodDetails,
     ApiRequest? foodDetailsStatus,

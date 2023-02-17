@@ -12,11 +12,12 @@ import 'food_details_state.dart';
 class FoodDetailsCubit extends Cubit<FoodDetailsState> {
   FoodDetailsCubit() : super(FoodDetailsState()) {
     loadFoodDetails(52772);
+    bool isFavourite = true;
    
   }
 
   final FoodDetailsService api = FoodDetailsService();
-  int id= 5772;
+  final bool isFavourite = true;
   Future<void> loadFoodDetails(int foodId) async {
     try {
       emit(state.copyWith(
@@ -51,14 +52,9 @@ class FoodDetailsCubit extends Cubit<FoodDetailsState> {
       
     }
   }
-   void favButton(id) {
-    LocaleManager localeManager = LocaleManager.instance;
-    if (localeManager.setStringValue('fav', jsonEncode(state.foodDetails?.meals?[0].idMeal ?? "")) == id) {
-      
-    }else{
-
-    }
-   }
+    /* void fav(bool isFavourite){
+    emit(state.isFavorite= true);
+   }  */
 
   
 
