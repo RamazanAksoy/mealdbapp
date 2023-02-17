@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mealdbapp/view/home/view/home.dart';
-
 import '../../core/constants/themes/colors.dart';
 import '../../utils/text_styles.dart';
 import '../categories/view/categories.dart';
