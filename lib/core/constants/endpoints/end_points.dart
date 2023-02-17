@@ -6,4 +6,5 @@ class EndPoints {
   static const getRandom = 'random.php';
   static const getPopulerItems = 'list.php?i=list';
   static const getFoodDetailsWithId = 'lookup.php';
+  static const getSearchFood = 'search.php';
 }
