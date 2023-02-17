@@ -123,9 +123,14 @@ class SearchScreen extends StatelessWidget {
             SizedBox(
               width: 5.w,
             ),
-            Text(
-              state.search?.meals?[index].strMeal ?? '',
-              style: Styles.normalBoldFontStyle(fontSize: 17.sp),
+            SizedBox(
+              width: 65.w,
+              child: Text(
+                state.search?.meals?[index].strMeal ?? '',
+                style: Styles.normalBoldFontStyle(fontSize: 17.sp),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ]),
         );
