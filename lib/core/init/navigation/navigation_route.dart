@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mealdbapp/view/food_details/view/food_details.dart';
 
 import '../../../view/widget/bottom_navigation_bar.dart';
 import '../../components/not_found_navigation_widget.dart';
@@ -13,10 +14,7 @@ class NavigationRoute {
     switch (args.name) {
       case NavigationConstants.DEFAULT:
         return normalNavigate(const Tabbar(), NavigationConstants.DEFAULT);
-      /*
-      case NavigationConstants.TEST_VIEW:
-        return normalNavigate(TestsView(), NavigationConstants.TEST_VIEW);
-
+        /*
       case NavigationConstants.BUY_VIEW:
         return normalNavigate(const BuyView(), NavigationConstants.BUY_VIEW);
 
