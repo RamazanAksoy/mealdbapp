@@ -15,11 +15,6 @@ class NavigationRoute {
   Route<dynamic> generateRoute(RouteSettings args) {
     switch (args.name) {
       case NavigationConstants.DEFAULT:
-        return normalNavigate(SearchScreen(), NavigationConstants.DEFAULT);
-      /*
-      case NavigationConstants.TEST_VIEW:
-        return normalNavigate(TestsView(), NavigationConstants.TEST_VIEW);
-
         return normalNavigate(const Tabbar(), NavigationConstants.DEFAULT);
 
       case NavigationConstants.CATEGORY_DETAILS:
@@ -29,12 +24,15 @@ class NavigationRoute {
             ),
             NavigationConstants.CATEGORY_DETAILS);
 
+      case NavigationConstants.SEARCH:
+        return normalNavigate(SearchScreen(), NavigationConstants.SEARCH);
+
       case NavigationConstants.FOOD_DETAIL:
         return normalNavigate(
             FoodDetailsScreen(
               foodId: int.parse(args.arguments.toString()),
             ),
-            NavigationConstants.CATEGORY_DETAILS);
+            NavigationConstants.FOOD_DETAIL);
 
       default:
         return MaterialPageRoute(
