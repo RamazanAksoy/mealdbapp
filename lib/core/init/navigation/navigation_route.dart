@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mealdbapp/view/search/view/search.dart';
 
 import '../../../view/widget/bottom_navigation_bar.dart';
 import '../../components/not_found_navigation_widget.dart';
@@ -12,7 +13,7 @@ class NavigationRoute {
   Route<dynamic> generateRoute(RouteSettings args) {
     switch (args.name) {
       case NavigationConstants.DEFAULT:
-        return normalNavigate(const Tabbar(), NavigationConstants.DEFAULT);
+        return normalNavigate(SearchScreen(), NavigationConstants.DEFAULT);
       /*
       case NavigationConstants.TEST_VIEW:
         return normalNavigate(TestsView(), NavigationConstants.TEST_VIEW);

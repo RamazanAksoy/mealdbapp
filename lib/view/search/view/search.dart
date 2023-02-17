@@ -18,14 +18,17 @@ class SearchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            buildAppBar(context, "Search"),
-            buildSearchText(context),
-            customSizedbox(),
-          ],
+      body: BlocProvider<SearchCubit>(
+        create: (context) => SearchCubit(),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              buildAppBar(context, "Search"),
+              buildSearchText(context),
+              customSizedbox(),
+            ],
+          ),
         ),
       ),
     );
@@ -35,25 +38,28 @@ class SearchScreen extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 5.w),
       child: SizedBox(
-        height: 8.h,
-        child: TextFormField(
-          onChanged: (value) {
-            if (value.length >= 2) {
-              context.read<SearchCubit>().loadsearch(value);
-            }
-          },
-          textAlign: TextAlign.center,
-          decoration: InputDecoration(
-            filled: true,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(8.w)),
-              borderSide: BorderSide.none,
-            ),
-            hintText: 'Search Data',
-            prefixIcon: const Icon(Icons.search),
-          ),
-        ),
-      ),
+          height: 8.h,
+          child: BlocConsumer<SearchCubit, SearchState>(
+              listener: (context, state) {},
+              builder: (context, state) {
+                return TextFormField(
+                  onChanged: (value) {
+                    if (value.length >= 2) {
+                      context.read<SearchCubit>().loadsearch(value);
+                    }
+                  },
+                  textAlign: TextAlign.center,
+                  decoration: InputDecoration(
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8.w)),
+                      borderSide: BorderSide.none,
+                    ),
+                    hintText: 'Search Data',
+                    prefixIcon: const Icon(Icons.search),
+                  ),
+                );
+              })),
     );
   }
 
