@@ -11,7 +11,7 @@ class FoodDetailsState {
       {
     required this.id,
     required this.meals,
-    this.isFavorite,
+    required this.isFavorite,
     this.foodDetails,
     this.foodDetailsStatus = ApiRequest.unknown,
   });
@@ -21,7 +21,7 @@ class FoodDetailsState {
   final List<Meals> meals;
   int id;
   FavSharedRepository favSharedRepository = FavSharedRepository();
-  late bool? isFavorite;
+  bool isFavorite;
   //set isFavorite(bool isFavorite) {}
 
   FoodDetailsState copyWith({

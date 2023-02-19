@@ -55,28 +55,32 @@ class FoodDetailsCubit extends Cubit<FoodDetailsState> {
 
   Future fav() async{
     final response = await favSharedRepository.favouriteState();
-    emit(FoodDetailsState(meals: response,id: 57772));
+    emit(FoodDetailsState(meals: response,id: 57772,isFavorite: false));
     
   }
   Future fav2(bool isFavorite,int id) async{
+        final response = await favSharedRepository.favouriteState();
+
     for (var i = 0; i < mealsListShared!.length; i++) {
       if (int.parse(mealsListShared?[i].idMeal ?? '0') == id) {
-        isFavorite = true;
+      emit(FoodDetailsState(meals: response,id: 57772,isFavorite: true));
         break;
       } else {
-        isFavorite = false;
+      emit(FoodDetailsState(meals: response,id: 57772,isFavorite: false));
       }
     }
 
     if (isFavorite = true) {
       mealsListShared?.removeLast();
       localeManager.setStringValue('fav', jsonEncode(mealsListShared));
-      isFavorite = false;
+      emit(FoodDetailsState(meals: response,id: 57772,isFavorite: false));
     }else {
       mealsListShared?.add(state.foodDetails!.meals![0]);
       localeManager.setStringValue('fav', jsonEncode(mealsListShared));
-      isFavorite = true;
+      emit(FoodDetailsState(meals: response,id: 57772,isFavorite: true));
     }
+        
+
   }
   
     }
