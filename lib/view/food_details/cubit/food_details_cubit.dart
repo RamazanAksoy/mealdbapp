@@ -11,14 +11,12 @@ import '../service/food_details_service.dart';
 import 'food_details_state.dart';
 
 class FoodDetailsCubit extends Cubit<FoodDetailsState> {
-  FoodDetailsCubit(this.mealsListShared,this.localeManager,this.isFavourite, this.favSharedRepository) : super(FoodDetailsState(meals: List.empty(),id: 0,isFavorite: false)) {
+  FoodDetailsCubit(this.mealsListShared,this.localeManager, this.favSharedRepository) : super(FoodDetailsState(meals: List.empty(),id: 0,isFavorite: false)) {
     loadFoodDetails(52772);
-    bool isFavorite;
-  }
+}
 
   List<Meals>? mealsListShared = [Meals()];
   final FoodDetailsService api = FoodDetailsService();
-  final bool isFavourite;
   LocaleManager localeManager = LocaleManager.instance;
   final FavSharedRepository favSharedRepository;
   
@@ -60,10 +58,7 @@ class FoodDetailsCubit extends Cubit<FoodDetailsState> {
     emit(FoodDetailsState(meals: response,id: 57772));
     
   }
-  Future fav2(bool isFavorite) async{
-    int? id;
-    bool isFavourite;
-    final response = await favSharedRepository.favouriteState();
+  Future fav2(bool isFavorite,int id) async{
     for (var i = 0; i < mealsListShared!.length; i++) {
       if (int.parse(mealsListShared?[i].idMeal ?? '0') == id) {
         isFavorite = true;
@@ -77,10 +72,9 @@ class FoodDetailsCubit extends Cubit<FoodDetailsState> {
       mealsListShared?.removeLast();
       localeManager.setStringValue('fav', jsonEncode(mealsListShared));
       isFavorite = false;
-    } else {
+    }else {
       mealsListShared?.add(state.foodDetails!.meals![0]);
       localeManager.setStringValue('fav', jsonEncode(mealsListShared));
-
       isFavorite = true;
     }
   }

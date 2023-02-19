@@ -62,7 +62,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
       body: SingleChildScrollView(
         child: BlocProvider(
           create: (context) => FoodDetailsCubit(
-              mealsListShared, localeManager, isFavorite, favSharedRepository),
+              mealsListShared, localeManager, favSharedRepository),
           child: BlocConsumer<FoodDetailsCubit, FoodDetailsState>(
             listener: (context, state) {},
             builder: (context, state) {
