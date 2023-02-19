@@ -8,6 +8,7 @@ import 'package:mealdbapp/core/constants/enums/reques.dart';
 import 'package:mealdbapp/utils/box_decoration.dart';
 import 'package:mealdbapp/view/food_details/cubit/food_details_cubit.dart';
 import 'package:mealdbapp/view/food_details/cubit/food_details_state.dart';
+import 'package:mealdbapp/view/food_details/service/food_details_service.dart';
 import 'package:mealdbapp/view/widget/error.dart';
 import 'package:mealdbapp/view/widget/loading.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -16,6 +17,15 @@ import '../../../core/constants/themes/colors.dart';
 import '../../../core/init/cache/locale_manager.dart';
 import '../../../utils/text_styles.dart';
 import '../../home/model/random-food/meals.dart';
+
+class MyWidget extends StatelessWidget {
+  const MyWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
 
 class FoodDetailsScreen extends StatefulWidget {
   FoodDetailsScreen({super.key});
@@ -26,25 +36,20 @@ class FoodDetailsScreen extends StatefulWidget {
 
 class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
   LocaleManager localeManager = LocaleManager.instance;
-
+  FavSharedRepository favSharedRepository = FavSharedRepository();
   int id = 52772;
   bool isFavorite = false;
-
   List<Meals>? mealsListShared = [Meals()];
-  @override
+
+  /* @override
   void initState() {
-    if (localeManager.getStringValue('fav') != '' &&
+     /* if (localeManager.getStringValue('fav') != '' &&
         localeManager.getStringValue('fav') != null) {
       List<dynamic> res = jsonDecode(localeManager.getStringValue('fav'));
-      mealsListShared = res
-          .map(
-            (e) => Meals.fromJson(e),
-          )
-          .toList();
+      mealsListShared = res.map((e) => Meals.fromJson(e)).toList();
     }
-
-    super.initState();
-  }
+    super.initState();  */
+  } */
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +61,8 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
       ),
       body: SingleChildScrollView(
         child: BlocProvider(
-          create: (context) => FoodDetailsCubit(),
+          create: (context) => FoodDetailsCubit(
+              mealsListShared, localeManager, isFavorite, favSharedRepository),
           child: BlocConsumer<FoodDetailsCubit, FoodDetailsState>(
             listener: (context, state) {},
             builder: (context, state) {
@@ -88,6 +94,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                                     top: 36.5.h,
                                     child: FloatingActionButton(
                                       onPressed: () {
+                                        favSharedRepository.favouriteState();
                                         for (var i = 0;
                                             i < mealsListShared!.length;
                                             i++) {
@@ -108,11 +115,9 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                                           localeManager.setStringValue('fav',
                                               jsonEncode(mealsListShared));
 
-                                          
                                           setState(() {
                                             isFavorite = false;
-                                          }
-                                          );
+                                          });
                                         } else {
                                           mealsListShared?.add(
                                               state.foodDetails!.meals![0]);
@@ -123,8 +128,9 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                                           });
                                         }
 
-                                        //sharedpreferences sadece string değer tutabiliyor. burada shared in map yapısını string bir değere atamayı yaptık. 'fav' key value'suna encode ettik.                                        //print(localeManager.getStringValue('fav'));
-
+                                        //sharedpreferences sadece string değer tutabiliyor.
+                                        //Burada shared in map yapısını string bir değere atamayı yaptık. 'fav' key value'suna encode ettik.
+                                        //print(localeManager.getStringValue('fav'));
                                         //id meals' çağırıldı.
                                       },
                                       child: Icon(isFavorite == true
@@ -212,7 +218,6 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                                   ),
                                   FittedBox(
                                       child: Container(
-                                          height: 43.h,
                                           width: 100.w,
                                           margin: EdgeInsets.only(
                                             top: .7.h,
@@ -226,38 +231,41 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          context
-                                              .read<FoodDetailsCubit>()
-                                              .urlLauncher(Uri());
-                                        },
-                                        child: Container(
-                                          height: 6.h,
-                                          width: 65.w,
-                                          margin: EdgeInsets.only(right: 2.w),
-                                          decoration: youtubeBoxDecoration(),
-                                          child: Center(
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Icon(
-                                                  Icons.smart_display_outlined,
-                                                  size: 5.5.h,
-                                                  color: AppColors.white,
-                                                ),
-                                                SizedBox(
-                                                  width: 1.w,
-                                                ),
-                                                Text(
-                                                  "Watch the Tutorial Video",
-                                                  style: Styles
-                                                      .normalWhiteBoldFontStyle(),
-                                                )
-                                              ],
+                                      Padding(
+                                        padding: EdgeInsets.only(top: 1.5.h),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            context
+                                                .read<FoodDetailsCubit>()
+                                                .urlLauncher(Uri());
+                                          },
+                                          child: Container(
+                                            height: 6.h,
+                                            width: 65.w,
+                                            margin: EdgeInsets.only(right: 2.w),
+                                            decoration: youtubeBoxDecoration(),
+                                            child: Center(
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Icon(
+                                                    Icons.smart_display_outlined,
+                                                    size: 5.5.h,
+                                                    color: AppColors.white,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 1.w,
+                                                  ),
+                                                  Text(
+                                                    "Watch the Tutorial Video",
+                                                    style: Styles
+                                                        .normalWhiteBoldFontStyle(),
+                                                  )
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),

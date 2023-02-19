@@ -1,11 +1,17 @@
 
 
+import 'dart:convert';
+
+import 'package:mealdbapp/core/init/cache/locale_manager.dart';
+
 import '../../../core/base/model/IResponseModel.dart';
 import '../../../core/constants/endpoints/end_points.dart';
 import '../../../core/constants/enums/http_request_enum.dart';
 import '../../../core/init/network/ICoreDio.dart';
 import '../../../core/init/network/network_manager.dart';
 import 'package:mealdbapp/view/home/model/random-food/res_food_details.dart';
+
+import '../model/random-food/meals.dart';
 
 class FoodDetailsService {
   ICoreDioNullSafety? networkManager = NetworkManager.instance!.coreDio;
@@ -19,5 +25,19 @@ class FoodDetailsService {
     );
     print(response?.data?.meals.toString());
     return response;
+  }
+}
+
+class FavSharedRepository {
+  LocaleManager localeManager = LocaleManager.instance;
+  List<Meals>? mealsListShared = [Meals()];
+
+  favouriteState() {
+    if (localeManager.getStringValue('fav') != '' &&
+        localeManager.getStringValue('fav') != null) {
+      List<dynamic> res = jsonDecode(localeManager.getStringValue('fav'));
+      mealsListShared = res.map((e) => Meals.fromJson(e)).toList();
+    }
+    
   }
 }

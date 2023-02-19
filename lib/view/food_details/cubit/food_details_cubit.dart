@@ -6,18 +6,22 @@ import 'package:mealdbapp/core/constants/enums/reques.dart';
 import 'package:mealdbapp/core/init/cache/locale_manager.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../home/model/random-food/meals.dart';
 import '../service/food_details_service.dart';
 import 'food_details_state.dart';
 
 class FoodDetailsCubit extends Cubit<FoodDetailsState> {
-  FoodDetailsCubit() : super(FoodDetailsState()) {
+  FoodDetailsCubit(this.mealsListShared,this.localeManager,this.isFavourite, this.favSharedRepository) : super(FoodDetailsState(meals: List.empty(),id: 0,isFavorite: false)) {
     loadFoodDetails(52772);
-    bool isFavourite = true;
-   
+    bool isFavorite;
   }
 
+  List<Meals>? mealsListShared = [Meals()];
   final FoodDetailsService api = FoodDetailsService();
-  final bool isFavourite = true;
+  final bool isFavourite;
+  LocaleManager localeManager = LocaleManager.instance;
+  final FavSharedRepository favSharedRepository;
+  
   Future<void> loadFoodDetails(int foodId) async {
     try {
       emit(state.copyWith(
@@ -45,17 +49,40 @@ class FoodDetailsCubit extends Cubit<FoodDetailsState> {
 
   Future<void> urlLauncher(Uri url) async{
     final Uri url = Uri.parse('${state.foodDetails?.meals?[0].strYoutube}');
-    final Uri url2 =
-      Uri.parse("https://www.youtube.com/watch?v=4aZr5hZXP_s");
     if (await launchUrl(url)) {
       throw 'Could not launch video';
       
     }
   }
-    /* void fav(bool isFavourite){
-    emit(state.isFavorite= true);
-   }  */
 
+  Future fav() async{
+    final response = await favSharedRepository.favouriteState();
+    emit(FoodDetailsState(meals: response,id: 57772));
+    
+  }
+  Future fav2(bool isFavorite) async{
+    int? id;
+    bool isFavourite;
+    final response = await favSharedRepository.favouriteState();
+    for (var i = 0; i < mealsListShared!.length; i++) {
+      if (int.parse(mealsListShared?[i].idMeal ?? '0') == id) {
+        isFavorite = true;
+        break;
+      } else {
+        isFavorite = false;
+      }
+    }
+
+    if (isFavorite = true) {
+      mealsListShared?.removeLast();
+      localeManager.setStringValue('fav', jsonEncode(mealsListShared));
+      isFavorite = false;
+    } else {
+      mealsListShared?.add(state.foodDetails!.meals![0]);
+      localeManager.setStringValue('fav', jsonEncode(mealsListShared));
+
+      isFavorite = true;
+    }
+  }
   
-
-}
+    }
