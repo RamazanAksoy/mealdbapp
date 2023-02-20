@@ -5,8 +5,8 @@ import '../service/categories_details_service.dart';
 import 'categories_details_state.dart';
 
 class CategoriesDetailsCubit extends Cubit<CategoriesDetailsState> {
-  CategoriesDetailsCubit() : super(CategoriesDetailsState()) {
-    loadcategoryDetails("Beef");
+  CategoriesDetailsCubit(String categoryName) : super(CategoriesDetailsState()) {
+    loadcategoryDetails(categoryName);
   }
 
   final CategoriesDetailsService api = CategoriesDetailsService();

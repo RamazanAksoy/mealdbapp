@@ -14,8 +14,9 @@ import '../../../core/constants/themes/colors.dart';
 import '../../../utils/text_styles.dart';
 
 class FoodDetailsScreen extends StatelessWidget {
-  const FoodDetailsScreen({super.key});
+  const FoodDetailsScreen({super.key, this.foodId});
 
+  final int? foodId;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +27,7 @@ class FoodDetailsScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: BlocProvider(
-          create: (context) => FoodDetailsCubit(),
+          create: (context) => FoodDetailsCubit(foodId ?? 0),
           child: BlocConsumer<FoodDetailsCubit, FoodDetailsState>(
             listener: (context, state) {},
             builder: (context, state) {
@@ -71,8 +72,7 @@ class FoodDetailsScreen extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
-                                        state.foodDetails!.meals![0].strMeal
-                                            .toString(),
+                                        state.foodDetails!.meals![0].strMeal.toString(),
                                         style: Styles.largeBoldFontStyle(),
                                         overflow: TextOverflow.ellipsis,
                                       ),
@@ -85,34 +85,39 @@ class FoodDetailsScreen extends StatelessWidget {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      const Icon(Icons.category,
-                                          color: AppColors.black),
+                                      const Icon(Icons.category, color: AppColors.black),
                                       Text(
                                         "Category:",
                                         style: Styles.normalBoldFontStyle(),
                                         overflow: TextOverflow.ellipsis,
                                       ),
-                                      Text(
-                                          "${state.foodDetails?.meals?[0].strCategory}",
+                                      Text("${state.foodDetails?.meals?[0].strCategory}",
                                           style: Styles.normalBoldFontStyle()),
                                       SizedBox(
                                         width: 7.w,
                                       ),
-                                      const Icon(Icons.location_on,
-                                          color: AppColors.black),
-                                      Text("Origin Country:",
-                                          style: Styles.normalBoldFontStyle()),
-                                      Text(
-                                          "${state.foodDetails?.meals?[0].strArea}",
+                                      const Icon(Icons.location_on, color: AppColors.black),
+                                      Text("Origin Country:", style: Styles.normalBoldFontStyle()),
+                                      Text("${state.foodDetails?.meals?[0].strArea}",
                                           style: Styles.normalBoldFontStyle()),
                                     ],
                                   ),
                                 ),
+                                Positioned(
+                                  child: IconButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      icon: Icon(
+                                        Icons.arrow_back_ios_rounded,
+                                        size: 5.w,
+                                        color: Colors.white,
+                                      )),
+                                ),
                               ],
                             ),
                             Padding(
-                              padding: EdgeInsets.only(
-                                  left: 2.1.w, right: 2.5.w, bottom: 1.h),
+                              padding: EdgeInsets.only(left: 2.1.w, right: 2.5.w, bottom: 1.h),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
@@ -122,8 +127,7 @@ class FoodDetailsScreen extends StatelessWidget {
                                     style: Styles.normalBoldFontStyle(),
                                     overflow: TextOverflow.ellipsis,
                                   ),
-                                  Text(
-                                      "${state.foodDetails?.meals?[0].strTags}",
+                                  Text("${state.foodDetails?.meals?[0].strTags}",
                                       style: Styles.normalBoldFontStyle()),
                                   SizedBox(
                                     width: 3.w,
@@ -132,8 +136,7 @@ class FoodDetailsScreen extends StatelessWidget {
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(
-                                  left: 2.5.w, right: 2.5.w, bottom: 1.h),
+                              padding: EdgeInsets.only(left: 2.5.w, right: 2.5.w, bottom: 1.h),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -176,8 +179,13 @@ class FoodDetailsScreen extends StatelessWidget {
                                                   size: 5.5.h,
                                                   color: AppColors.white,
                                                 ),
-                                                SizedBox(width: 1.w,),
-                                                Text("Watch the Tutorial Video",style: Styles.normalWhiteBoldFontStyle(),)
+                                                SizedBox(
+                                                  width: 1.w,
+                                                ),
+                                                Text(
+                                                  "Watch the Tutorial Video",
+                                                  style: Styles.normalWhiteBoldFontStyle(),
+                                                )
                                               ],
                                             ),
                                           ),
@@ -196,9 +204,7 @@ class FoodDetailsScreen extends StatelessWidget {
                           child: Center(
                             child: ErrorApi(
                               onRety: () {
-                                context
-                                    .read<FoodDetailsCubit>()
-                                    .loadFoodDetails(52772);
+                                context.read<FoodDetailsCubit>().loadFoodDetails(52772);
                               },
                             ),
                           ),
