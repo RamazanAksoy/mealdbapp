@@ -9,7 +9,7 @@ part 'res_food_details.g.dart';
 class ResFoodDetails extends BaseModel<ResFoodDetails> {
   final List<Meals>? meals;
 
-  ResFoodDetails({this.meals});
+  ResFoodDetails( {this.meals});
 
   factory ResFoodDetails.fromJson(Map<String, dynamic> json) =>
       _$ResFoodDetailsFromJson(json);

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mealdbapp/core/init/cache/locale_manager.dart';
 import 'package:mealdbapp/view/my_favorite/cubit/meal_cubit.dart';
 
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -16,7 +17,7 @@ class MyFavoriteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(scrollDirection: Axis.vertical,
+      body: SingleChildScrollView(
         child: BlocProvider<MealCubit>(
           create: (context) => MealCubit(),
           child: BlocConsumer<MealCubit, MealState>(
@@ -54,11 +55,11 @@ Container buildAppBar(BuildContext context) {
 
 Widget buildGridView(MealState state) {
   return state.isLoading==true?
+  state.foodDetails!.meals!.isNotEmpty?
   GridView.builder(
     physics: const NeverScrollableScrollPhysics(),
     padding: const EdgeInsets.all(0),
     shrinkWrap: true,
-    scrollDirection: Axis.vertical,
     itemCount: state.foodDetails!.meals!.length,
     itemBuilder: (context, index) {
       return InkWell(
@@ -97,7 +98,9 @@ Widget buildGridView(MealState state) {
                         state.foodDetails!.meals![index].strMeal!,
                         style:
                             Styles.largeFontStyle().copyWith(fontSize: 19.sp),
-                      )
+                      ),IconButton(onPressed: () {
+                       customShowDialog(context,index);
+                      }, icon: const Icon(Icons.favorite,color: Colors.red,size: 30,))
                     ])
               ):const Center(child: CircularProgressIndicator(),);
             },
@@ -107,7 +110,38 @@ Widget buildGridView(MealState state) {
     },
     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 1, childAspectRatio: 4 / 5),
-  ):const Center(child:  CircularProgressIndicator());
+  ):const Center(child:  CircularProgressIndicator()):const Center(child: Text("Favori Ürün Bulunmamaktadır!"),);
 }
 
 
+ customShowDialog(BuildContext context,index) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title:  const Text("Dikkat!"),
+          content: const Text("Ürün Favorilerden Kaldıracaktır!"),
+          actions: <Widget>[
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+              child: const Text("Onayla"),
+              onPressed: () async{
+                //Listeden seçilen veriyi silme işlemi yapılacak!
+              MealCubit().deleteValue(index);
+                
+                // print(state.foodDetails!.meals!.length);
+
+                Navigator.of(context).pop();
+              },
+            ),
+            ElevatedButton(
+              child: const Text("Kapat"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
