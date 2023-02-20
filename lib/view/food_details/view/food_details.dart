@@ -1,55 +1,22 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mealdbapp/core/constants/enums/reques.dart';
 import 'package:mealdbapp/utils/box_decoration.dart';
 import 'package:mealdbapp/view/food_details/cubit/food_details_cubit.dart';
 import 'package:mealdbapp/view/food_details/cubit/food_details_state.dart';
-import 'package:mealdbapp/view/food_details/service/food_details_service.dart';
 import 'package:mealdbapp/view/widget/error.dart';
 import 'package:mealdbapp/view/widget/loading.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../core/constants/themes/colors.dart';
-import '../../../core/init/cache/locale_manager.dart';
 import '../../../utils/text_styles.dart';
-import '../../home/model/random-food/meals.dart';
 
-class MyWidget extends StatelessWidget {
-  const MyWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
-
-class FoodDetailsScreen extends StatefulWidget {
+class FoodDetailsScreen extends StatelessWidget {
   FoodDetailsScreen({super.key});
 
-  @override
-  State<FoodDetailsScreen> createState() => _FoodDetailsScreenState();
-}
-
-class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
-  LocaleManager localeManager = LocaleManager.instance;
-  FavSharedRepository favSharedRepository = FavSharedRepository();
   int id = 52772;
-  bool isFavorite = false;
-  List<Meals>? mealsListShared = [Meals()];
-
-  /* @override
-  void initState() {
-     /* if (localeManager.getStringValue('fav') != '' &&
-        localeManager.getStringValue('fav') != null) {
-      List<dynamic> res = jsonDecode(localeManager.getStringValue('fav'));
-      mealsListShared = res.map((e) => Meals.fromJson(e)).toList();
-    }
-    super.initState();  */
-  } */
 
   @override
   Widget build(BuildContext context) {
@@ -60,9 +27,8 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
         backgroundColor: AppColors.red,
       ),
       body: SingleChildScrollView(
-        child: BlocProvider(
-          create: (context) => FoodDetailsCubit(
-              mealsListShared, localeManager, favSharedRepository),
+        child: BlocProvider<FoodDetailsCubit>(
+          create: (context) => FoodDetailsCubit(id),
           child: BlocConsumer<FoodDetailsCubit, FoodDetailsState>(
             listener: (context, state) {},
             builder: (context, state) {
@@ -88,55 +54,19 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                                     height: 40.h,
                                     width: 100.w,
                                   ),
+                                  
                                 ),
                                 Positioned(
                                     left: 80.w,
                                     top: 36.5.h,
                                     child: FloatingActionButton(
                                       onPressed: () {
-                                        favSharedRepository.favouriteState();
-                                        for (var i = 0;
-                                            i < mealsListShared!.length;
-                                            i++) {
-                                          if (int.parse(
-                                                  mealsListShared?[i].idMeal ??
-                                                      '0') ==
-                                              id) {
-                                            isFavorite = true;
-                                            break;
-                                          } else {
-                                            isFavorite = false;
-                                          }
-                                        }
-
-                                        if (isFavorite) {
-                                          mealsListShared?.removeLast();
-
-                                          localeManager.setStringValue('fav',
-                                              jsonEncode(mealsListShared));
-
-                                          setState(() {
-                                            isFavorite = false;
-                                          });
-                                        } else {
-                                          mealsListShared?.add(
-                                              state.foodDetails!.meals![0]);
-                                          localeManager.setStringValue('fav',
-                                              jsonEncode(mealsListShared));
-                                          setState(() {
-                                            isFavorite = true;
-                                          });
-                                        }
-
-                                        //sharedpreferences sadece string değer tutabiliyor.
-                                        //Burada shared in map yapısını string bir değere atamayı yaptık. 'fav' key value'suna encode ettik.
-                                        //print(localeManager.getStringValue('fav'));
-                                        //id meals' çağırıldı.
+                                        context.read<FoodDetailsCubit>().favoriButtonClick(id);
                                       },
-                                      child: Icon(isFavorite == true
-                                          ? Icons.favorite
-                                          : Icons.favorite_border),
                                       backgroundColor: AppColors.red,
+                                      child: Icon(state.isFavorite == true
+                                          ? Icons.favorite
+                                          : Icons.favorite_border),                                   
                                     )),
                                 Positioned(
                                   left: 2.w,
@@ -252,7 +182,8 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                                                     CrossAxisAlignment.center,
                                                 children: [
                                                   Icon(
-                                                    Icons.smart_display_outlined,
+                                                    Icons
+                                                        .smart_display_outlined,
                                                     size: 5.5.h,
                                                     color: AppColors.white,
                                                   ),

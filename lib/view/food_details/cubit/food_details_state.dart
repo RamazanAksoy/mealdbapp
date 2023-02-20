@@ -1,40 +1,31 @@
-
+import 'package:mealdbapp/view/home/model/random-food/meals.dart';
 import 'package:mealdbapp/view/home/model/random-food/res_food_details.dart';
 
 import '../../../core/constants/enums/reques.dart';
-import '../model/random-food/meals.dart';
-import '../service/food_details_service.dart';
-
 
 class FoodDetailsState {
-  FoodDetailsState(
-      {
-    required this.id,
+  FoodDetailsState({
     required this.meals,
-    required this.isFavorite,
+    this.isFavorite = false,
     this.foodDetails,
     this.foodDetailsStatus = ApiRequest.unknown,
   });
 
   final ResFoodDetails? foodDetails;
-  final ApiRequest foodDetailsStatus;
-  final List<Meals> meals;
-  int id;
-  FavSharedRepository favSharedRepository = FavSharedRepository();
-  bool isFavorite;
-  //set isFavorite(bool isFavorite) {}
+  final ApiRequest? foodDetailsStatus;
+  final List<Meals>? meals;
+  final bool? isFavorite;
 
-  FoodDetailsState copyWith({
-    ResFoodDetails? foodDetails,
-    ApiRequest? foodDetailsStatus,
-  }) =>
+  FoodDetailsState copyWith(
+          {ResFoodDetails? foodDetails,
+          ApiRequest? foodDetailsStatus,
+          bool? isFavorite,
+          List<Meals>? meals}) =>
+          
       FoodDetailsState(
         foodDetails: foodDetails ?? this.foodDetails,
-        foodDetailsStatus: foodDetailsStatus ?? this.foodDetailsStatus, 
-        meals: meals,
-        id: 52772, 
-        isFavorite: false,
-        
+        foodDetailsStatus: foodDetailsStatus ?? this.foodDetailsStatus,
+        meals: meals ?? this.meals,
+        isFavorite: isFavorite ?? this.isFavorite,
       );
 }
-
