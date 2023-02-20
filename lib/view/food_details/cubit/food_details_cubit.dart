@@ -11,8 +11,7 @@ import '../service/food_details_service.dart';
 import 'food_details_state.dart';
 
 class FoodDetailsCubit extends Cubit<FoodDetailsState> {
-  FoodDetailsCubit(int id)
-      : super(FoodDetailsState(meals: List.empty(), isFavorite: false)) {
+  FoodDetailsCubit(int id) : super(FoodDetailsState(meals: List.empty(), isFavorite: false)) {
     loadFoodDetails(id);
     favoriCheck(id);
   }
@@ -28,7 +27,6 @@ class FoodDetailsCubit extends Cubit<FoodDetailsState> {
       ));
 
       final response = (await api.getResFoodDetailsWithId(foodId))?.data;
-      print(response);
       if (response?.meals != null) {
         emit(state.copyWith(
           foodDetailsStatus: ApiRequest.requestSuccess,
@@ -55,14 +53,15 @@ class FoodDetailsCubit extends Cubit<FoodDetailsState> {
 
   favoriCheck(int id) {
     bool favorite = false;
-    final mealsListShared = favSharedRepository.favouriteState();
-
-    for (var i = 0; i < mealsListShared!.length; i++) {
-      if (int.parse(mealsListShared[i].idMeal ?? '0') == id) {
-        favorite = true;
-        break;
-      } else {
-        favorite = false;
+    List<Meals>? mealsListShared = favSharedRepository.favouriteState();
+    if (mealsListShared != null) {
+      for (var i = 0; i < mealsListShared.length; i++) {
+        if (int.parse(mealsListShared[i].idMeal ?? '0') == id) {
+          favorite = true;
+          break;
+        } else {
+          favorite = false;
+        }
       }
     }
     emit(state.copyWith(isFavorite: favorite));
@@ -82,7 +81,7 @@ class FoodDetailsCubit extends Cubit<FoodDetailsState> {
       }
     }
 
-    if (state.isFavorite! == true) {
+    if (state.isFavorite == true) {
       mealsListShared?.removeLast();
       localeManager.setStringValue('fav', jsonEncode(mealsListShared));
       emit(state.copyWith(meals: mealsListShared, isFavorite: false));

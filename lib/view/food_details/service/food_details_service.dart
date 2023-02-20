@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 
 import 'package:mealdbapp/core/init/cache/locale_manager.dart';
@@ -23,23 +21,22 @@ class FoodDetailsService {
       queryParameters: {"i": foodid},
       type: HttpTypes.GET,
     );
-    print(response?.data?.meals.toString());
     return response;
   }
 }
 
 class FavSharedRepository {
   LocaleManager localeManager = LocaleManager.instance;
-  List<Meals>? mealsListShared = [Meals()];
 
   List<Meals>? favouriteState() {
+    List<Meals>? mealsListShared = List.empty(growable: true);
     if (localeManager.getStringValue('fav') != '' &&
-        localeManager.getStringValue('fav') != null&&
+        localeManager.getStringValue('fav') != null &&
         localeManager.getStringValue('fav') != 'null') {
       List<dynamic> res = jsonDecode(localeManager.getStringValue('fav'));
       mealsListShared = res.map((e) => Meals.fromJson(e)).toList();
-      return mealsListShared;
+      print(mealsListShared?.length.toString());
     }
-    
+    return mealsListShared;
   }
 }
