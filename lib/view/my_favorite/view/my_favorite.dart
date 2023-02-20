@@ -16,7 +16,7 @@ class MyFavoriteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
+      body: SingleChildScrollView(scrollDirection: Axis.vertical,
         child: BlocProvider<MealCubit>(
           create: (context) => MealCubit(),
           child: BlocConsumer<MealCubit, MealState>(
@@ -55,8 +55,10 @@ Container buildAppBar(BuildContext context) {
 Widget buildGridView(MealState state) {
   return state.isLoading==true?
   GridView.builder(
+    physics: const NeverScrollableScrollPhysics(),
     padding: const EdgeInsets.all(0),
     shrinkWrap: true,
+    scrollDirection: Axis.vertical,
     itemCount: state.foodDetails!.meals!.length,
     itemBuilder: (context, index) {
       return InkWell(

@@ -8,10 +8,53 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 part 'meal_state.dart';
 
+final meals = {
+  "meals": [
+    {
+      "idMeal": "52772",
+      "strMeal": "Teriyaki Chicken Casserole",
+      "strDrinkAlternate": "sa",
+      "strCategory": "Chicken",
+      "strArea": "Japanese",
+      "strInstructions":
+          "Preheat oven to 350° F. Spray a 9x13-inch baking pan with non-stick spray....",
+      "strMealThumb":
+          "https://www.themealdb.com/images/media/meals/wvpsxx1468256321.jpg"
+    },
+    {
+      "idMeal": "52772",
+      "strMeal": "Teriyaki Chicken Casserole",
+      "strDrinkAlternate": "sa",
+      "strCategory": "Chicken",
+      "strArea": "Japanese",
+      "strInstructions":
+          "Preheat oven to 350° F. Spray a 9x13-inch baking pan with non-stick spray....",
+      "strMealThumb":
+          "https://www.themealdb.com/images/media/meals/wvpsxx1468256321.jpg"
+    },{
+      "idMeal": "52772",
+      "strMeal": "Teriyaki Chicken Casserole",
+      "strDrinkAlternate": "sa",
+      "strCategory": "Chicken",
+      "strArea": "Japanese",
+      "strInstructions":
+          "Preheat oven to 350° F. Spray a 9x13-inch baking pan with non-stick spray....",
+      "strMealThumb":
+          "https://www.themealdb.com/images/media/meals/wvpsxx1468256321.jpg"
+    }
+  ]
+};
+  saveData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('meals', json.encode(meals));
+    print("saveData");
+  }
+
 
 class MealCubit extends Cubit<MealState> {
   MealCubit() : super(MealState()) {
     getLocalData();
+    // saveData();
   }
 
   Future<void> getLocalData() async {
@@ -19,8 +62,6 @@ class MealCubit extends Cubit<MealState> {
     LocaleManager localeManager = LocaleManager.instance;
     String? jsonString = localeManager.getStringValue('meals');
 
-    Map<String, dynamic> data = await jsonDecode(jsonString);
-    print(data);
     ResFoodDetails dataRes =
         ResFoodDetails.fromJson(await jsonDecode(jsonString));
 
