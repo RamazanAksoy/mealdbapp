@@ -4,6 +4,8 @@ import 'package:mealdbapp/core/constants/themes/colors.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../core/constants/enums/reques.dart';
+import '../../../core/constants/navigation/navigation_constants.dart';
+import '../../../core/init/navigation/navigation_service.dart';
 import '../../../utils/text_styles.dart';
 import '../../widget/error.dart';
 import '../../widget/loading.dart';
@@ -108,46 +110,52 @@ class SearchScreen extends StatelessWidget {
       shrinkWrap: true,
       itemCount: state.search?.meals?.length ?? 0,
       itemBuilder: (context, index) {
-        return Container(
-          padding: EdgeInsets.all(18.sp),
-          margin: EdgeInsets.all(18.sp),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10.sp),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 0.1,
-                blurRadius: 1.5,
-                offset: const Offset(0, 0),
+        return GestureDetector(
+          onTap: () {
+            NavigationService.instance.navigateToPage(
+                path: NavigationConstants.FOOD_DETAIL, data: state.search!.meals![0].idMeal!);
+          },
+          child: Container(
+            padding: EdgeInsets.all(18.sp),
+            margin: EdgeInsets.all(18.sp),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10.sp),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 0.1,
+                  blurRadius: 1.5,
+                  offset: const Offset(0, 0),
+                ),
+              ],
+            ),
+            child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+              SizedBox(
+                height: 5.h,
+                width: 5.h,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(100.w),
+                  child: Image.network(state.search?.meals?[index].strMealThumb != null
+                      ? state.search!.meals![index].strMealThumb!
+                      : "https://www.shutterstock.com/image-vector/empty-set-null-slashed-zero-600w-2106956618.jpg"),
+                ),
               ),
-            ],
+              SizedBox(
+                width: 5.w,
+              ),
+              SizedBox(
+                width: 65.w,
+                child: Text(
+                  state.search?.meals?[index].strMeal ?? '',
+                  style: Styles.normalBoldFontStyle(fontSize: 17.sp),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ]),
           ),
-          child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-            SizedBox(
-              height: 5.h,
-              width: 5.h,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(100.w),
-                child: Image.network(state.search?.meals?[index].strMealThumb != null
-                    ? state.search!.meals![index].strMealThumb!
-                    : "https://www.shutterstock.com/image-vector/empty-set-null-slashed-zero-600w-2106956618.jpg"),
-              ),
-            ),
-            SizedBox(
-              width: 5.w,
-            ),
-            SizedBox(
-              width: 65.w,
-              child: Text(
-                state.search?.meals?[index].strMeal ?? '',
-                style: Styles.normalBoldFontStyle(fontSize: 17.sp),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-          ]),
         );
       },
     );
