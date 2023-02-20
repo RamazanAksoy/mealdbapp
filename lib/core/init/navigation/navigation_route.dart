@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mealdbapp/view/food_details/view/food_details.dart';
-
-import '../../../view/widget/bottom_navigation_bar.dart';
 import '../../components/not_found_navigation_widget.dart';
 import '../../constants/navigation/navigation_constants.dart';
 
@@ -13,7 +11,7 @@ class NavigationRoute {
   Route<dynamic> generateRoute(RouteSettings args) {
     switch (args.name) {
       case NavigationConstants.DEFAULT:
-        return normalNavigate(FoodDetailsScreen(id: 52772), NavigationConstants.FOOD_DETAIL);
+        return normalNavigate(FoodDetailsScreen(id: 52771), NavigationConstants.FOOD_DETAIL);
       /*
       case NavigationConstants.BUY_VIEW:
         return normalNavigate(const BuyView(), NavigationConstants.BUY_VIEW);
