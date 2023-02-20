@@ -6,8 +6,9 @@ import '../service/food_details_service.dart';
 import 'food_details_api_state.dart';
 
 class FoodDetailsCubit extends Cubit<FoodDetailsState> {
-  FoodDetailsCubit(int foodId) : super(FoodDetailsState()) {
+  FoodDetailsCubit(int foodId,Uri url) : super(FoodDetailsState()) {
     loadFoodDetails(foodId);
+    urlLauncher(url);
   }
 
   final FoodDetailsService api = FoodDetailsService();
@@ -37,10 +38,9 @@ class FoodDetailsCubit extends Cubit<FoodDetailsState> {
     }
   }
 
-  Future<void> urlLauncher(Uri url) async {
+  void urlLauncher(Uri url)  {
     final Uri url = Uri.parse('${state.foodDetails?.meals?[0].strYoutube}');
-    final Uri url2 = Uri.parse("https://www.youtube.com/watch?v=4aZr5hZXP_s");
-    if (await launchUrl(url)) {
+    if (launchUrl(url) == launchUrl(url)) {
       throw 'Could not launch video';
     }
   }

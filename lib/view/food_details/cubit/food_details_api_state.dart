@@ -9,10 +9,12 @@ class FoodDetailsState {
 
   final ResFoodDetails? foodDetails;
   final ApiRequest? foodDetailsStatus;
+  //final Uri url = Uri.parse('${FoodDetailsState().foodDetails?.meals?[0].strYoutube}');
 
   FoodDetailsState copyWith({
     ResFoodDetails? foodDetails,
     ApiRequest? foodDetailsStatus,
+    //Uri? url,
   }) =>
       FoodDetailsState(
         foodDetails: foodDetails ?? this.foodDetails,

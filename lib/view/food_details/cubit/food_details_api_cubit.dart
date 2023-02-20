@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:mealdbapp/view/food_details/cubit/food_details_api_state.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -18,20 +19,44 @@ class FoodDetailsCubit extends Cubit<FoodDetailsState> {
       emit(FoodDetailsState(foodDetailsStatus: ApiRequest.requestInProgress));
       final response = (await api.getResFoodDetailsWithId(foodId))?.data;
       if (response?.meals != null) {
-        emit(FoodDetailsState()
-            .copyWith(foodDetails: response, foodDetailsStatus: ApiRequest.requestSuccess));
+        emit(FoodDetailsState().copyWith(
+            foodDetails: response,
+            foodDetailsStatus: ApiRequest.requestSuccess));
       } else {
-        emit(FoodDetailsState().copyWith(foodDetailsStatus: ApiRequest.requestFailure));
+        emit(FoodDetailsState()
+            .copyWith(foodDetailsStatus: ApiRequest.requestFailure));
       }
     } catch (e) {
-      emit(FoodDetailsState().copyWith(foodDetailsStatus: ApiRequest.requestFailure));
+      emit(FoodDetailsState()
+          .copyWith(foodDetailsStatus: ApiRequest.requestFailure));
     }
   }
+  /* Future<void> urlLauncher(Uri url) async {
+    final Uri url = Uri.parse('${FoodDetailsState().foodDetails?.meals?[0].strYoutube}');
+    if (await launchUrl(url)) {
+      emit(FoodDetailsState());
+      
+    }else{
+      return print("Error");
+    }
+  } */
 
   Future<void> urlLauncher(Uri url) async {
-    final Uri url = Uri.parse('${FoodDetailsState().foodDetails?.meals?[0].strYoutube}');
+    final Uri url =
+        Uri.parse('${FoodDetailsState().foodDetails?.meals?[0].strYoutube}');
     if (await launchUrl(url)) {
       throw 'Could not launch video';
     }
-  }
+  } 
+  /*  Future urlLauncher(Uri url) async {
+    final Uri url = Uri.parse('${FoodDetailsState().foodDetails?.meals?[0].strYoutube}');
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+      return url;
+    }else{
+      return Center(
+        child: Text("Link Error"),
+      );
+    }
+  } */
 }

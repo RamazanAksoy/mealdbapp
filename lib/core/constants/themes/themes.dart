@@ -9,8 +9,8 @@ class Themes {
 
   static final lightTheme = ThemeData(
     primaryColor: AppColors.themeColor,
-    colorScheme: ColorScheme.light(primary: AppColors.themeColor),
-    buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+    colorScheme: const ColorScheme.light(primary: AppColors.themeColor),
+    buttonTheme: const ButtonThemeData(textTheme: ButtonTextTheme.primary),
     appBarTheme: const AppBarTheme(backgroundColor: AppColors.main),
   );
 }

@@ -82,8 +82,10 @@ class FoodDetailsScreen extends StatelessWidget {
             BlocConsumer<FavoriteCubit, FavoriteState>(
                 listener: (context, state) {},
                 builder: (context, stateFavori) {
-                  return buildPositionedFavoriButton(context, state, stateFavori);
+                  return buildPositionedFavoriButton(
+                      context, state, stateFavori);
                 }),
+            buildPositionedReturnIconButton(context),
             buildPositionedTextName(state),
             buildPositionedCategoryRow(state),
           ],
@@ -94,7 +96,23 @@ class FoodDetailsScreen extends StatelessWidget {
     );
   }
 
-  Padding buildPaddingInstructions(FoodDetailsState state, BuildContext context) {
+  Positioned buildPositionedReturnIconButton(BuildContext context) {
+    return Positioned(
+        child: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: AppColors.red,
+            
+
+            
+            ),iconSize: 3.5.h,));
+  }
+
+  Padding buildPaddingInstructions(
+      FoodDetailsState state, BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(left: 2.5.w, right: 2.5.w, bottom: 1.h),
       child: Column(
@@ -113,52 +131,84 @@ class FoodDetailsScreen extends StatelessWidget {
                   ),
                   child: Text(
                     "${state.foodDetails?.meals![0].strInstructions}",
-                    style: Styles.normalFontStyle(),
+                    style: Styles.mediumFontStyle(),
                   ))),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Padding(
-                padding: EdgeInsets.only(top: 1.5.h),
-                child: GestureDetector(
-                  onTap: () {
-                    context.read<FoodDetailsCubit>().urlLauncher(Uri());
-                  },
-                  child: Container(
-                    height: 6.h,
-                    width: 65.w,
-                    margin: EdgeInsets.only(right: 2.w),
-                    decoration: youtubeBoxDecoration(),
-                    child: Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.smart_display_outlined,
-                            size: 5.5.h,
-                            color: AppColors.white,
-                          ),
-                          SizedBox(
-                            width: 1.w,
-                          ),
-                          Text(
-                            "Watch the Tutorial Video",
-                            style: Styles.normalWhiteBoldFontStyle(),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+              //buildYoutubeButton(context),
+              GestureDetector(
+      onTap: () {
+        context.read<FoodDetailsCubit>().urlLauncher(Uri());
+      },
+      child: Container(
+        height: 6.h,
+        width: 65.w,
+        margin: EdgeInsets.symmetric(vertical: 1.7.h),
+        decoration: youtubeBoxDecoration(),
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.smart_display_outlined,
+                size: 5.5.h,
+                color: AppColors.white,
               ),
+              SizedBox(
+                width: 1.w,
+              ),
+              Text(
+                "Watch the Tutorial Video",
+                style: Styles.normalWhiteBoldFontStyle(),
+              )
+            ],
+          ),
+        ),
+      ),
+    )
             ],
           )
         ],
       ),
     );
   }
+
+  /* GestureDetector buildYoutubeButton(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        context.read<FoodDetailsCubit>().urlLauncher(Uri());
+      },
+      child: Container(
+        height: 6.h,
+        width: 65.w,
+        margin: EdgeInsets.symmetric(vertical: 1.7.h),
+        decoration: youtubeBoxDecoration(),
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.smart_display_outlined,
+                size: 5.5.h,
+                color: AppColors.white,
+              ),
+              SizedBox(
+                width: 1.w,
+              ),
+              Text(
+                "Watch the Tutorial Video",
+                style: Styles.normalWhiteBoldFontStyle(),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  } */
 
   Padding buildPositionedTag(FoodDetailsState state) {
     return Padding(
@@ -172,7 +222,11 @@ class FoodDetailsScreen extends StatelessWidget {
             style: Styles.normalBoldFontStyle(),
             overflow: TextOverflow.ellipsis,
           ),
-          Text("${state.foodDetails?.meals?[0].strTags}", style: Styles.normalBoldFontStyle()),
+          Text(
+              state.foodDetails?.meals?[0].strTags != null
+                  ? "${state.foodDetails?.meals?[0].strTags}"
+                  : "",
+              style: Styles.normalBoldFontStyle()),
           SizedBox(
             width: 3.w,
           ),
@@ -194,13 +248,21 @@ class FoodDetailsScreen extends StatelessWidget {
             style: Styles.normalBoldFontStyle(),
             overflow: TextOverflow.ellipsis,
           ),
-          Text("${state.foodDetails?.meals?[0].strCategory}", style: Styles.normalBoldFontStyle()),
+          Text(
+              state.foodDetails?.meals?[0].strCategory != null
+                  ? "${state.foodDetails?.meals?[0].strCategory}"
+                  : "",
+              style: Styles.normalBoldFontStyle()),
           SizedBox(
             width: 7.w,
           ),
           const Icon(Icons.location_on, color: AppColors.black),
           Text("Origin Country:", style: Styles.normalBoldFontStyle()),
-          Text("${state.foodDetails?.meals?[0].strArea}", style: Styles.normalBoldFontStyle()),
+          Text(
+              state.foodDetails?.meals?[0].strArea != null
+                  ? "${state.foodDetails?.meals?[0].strArea}"
+                  : "",
+              style: Styles.normalBoldFontStyle()),
         ],
       ),
     );
@@ -213,10 +275,13 @@ class FoodDetailsScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text(
-            state.foodDetails!.meals![0].strMeal.toString(),
-            style: Styles.largeBoldFontStyle(),
-            overflow: TextOverflow.ellipsis,
+          SizedBox(
+            width: 80.w,
+            child: Text(
+              state.foodDetails!.meals![0].strMeal.toString(),
+              style: Styles.largeBoldFontStyle(),
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ],
       ),
@@ -230,10 +295,14 @@ class FoodDetailsScreen extends StatelessWidget {
         top: 36.5.h,
         child: FloatingActionButton(
           onPressed: () {
-            context.read<FavoriteCubit>().favoriButtonClick(foodId, state.foodDetails!.meals?[0]);
+            context
+                .read<FavoriteCubit>()
+                .favoriButtonClick(foodId, state.foodDetails!.meals?[0]);
           },
           backgroundColor: AppColors.red,
-          child: Icon(stateFavori.isFavorite == true ? Icons.favorite : Icons.favorite_border),
+          child: Icon(stateFavori.isFavorite == true
+              ? Icons.favorite
+              : Icons.favorite_border),
         ));
   }
 
