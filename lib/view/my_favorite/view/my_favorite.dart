@@ -11,6 +11,7 @@ import '../../../utils/text_styles.dart';
 
 class MyFavoriteScreen extends StatelessWidget {
   const MyFavoriteScreen({super.key});
+  
 
   @override
   Widget build(BuildContext context) {
@@ -21,16 +22,14 @@ class MyFavoriteScreen extends StatelessWidget {
           child: BlocConsumer<MealCubit, MealState>(
             listener: (context, state) {},
             builder: (context, state) {
-              if (state.foodDetails!.meals!.isEmpty) {
-                return Text("boş");
-              } else {
+             
                 return Column(
                   children: [
                     buildAppBar(context),
                     buildGridView(state),
                   ],
                 );
-              }
+              
             },
           ),
         ),
@@ -54,7 +53,8 @@ Container buildAppBar(BuildContext context) {
 }
 
 Widget buildGridView(MealState state) {
-  return GridView.builder(
+  return state.isLoading==true?
+  GridView.builder(
     padding: const EdgeInsets.all(0),
     shrinkWrap: true,
     itemCount: state.foodDetails!.meals!.length,
@@ -68,7 +68,8 @@ Widget buildGridView(MealState state) {
           child: BlocConsumer<MealCubit, MealState>(
             listener: (context, state) {},
             builder: (context, state) {
-              return Container(
+              return state.isLoading==true?
+              Container(
                 padding: EdgeInsets.all(15.sp),
                 margin: EdgeInsets.all(15.sp),
                 alignment: Alignment.center,
@@ -84,7 +85,8 @@ Widget buildGridView(MealState state) {
                     ),
                   ],
                 ),
-                child: Column(
+                child: 
+                Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Image.network(
@@ -94,8 +96,8 @@ Widget buildGridView(MealState state) {
                         style:
                             Styles.largeFontStyle().copyWith(fontSize: 19.sp),
                       )
-                    ]),
-              );
+                    ])
+              ):const Center(child: CircularProgressIndicator(),);
             },
           ),
         ),
@@ -103,49 +105,7 @@ Widget buildGridView(MealState state) {
     },
     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 1, childAspectRatio: 4 / 5),
-  );
+  ):const Center(child:  CircularProgressIndicator());
 }
 
 
-/* var x = "sa";
-
-var y;
-
-final meals = {
-  "meals": [
-    {
-      "idMeal": "52772",
-      "strMeal": "Teriyaki Chicken Casserole",
-      "strDrinkAlternate": "sa",
-      "strCategory": "Chicken",
-      "strArea": "Japanese",
-      "strInstructions":
-          "Preheat oven to 350° F. Spray a 9x13-inch baking pan with non-stick spray....",
-      "strMealThumb":
-          "https://www.themealdb.com/images/media/meals/wvpsxx1468256321.jpg"
-    }
-  ]
-};
-  saveData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('meals', json.encode(meals));
-    print("saveData");
-  }
-
-  getData() async {
-    String strMeal = "boş";
-
-    dynamic strMealThumb;
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? jsonString = prefs.getString('meals');
-    Map<String, dynamic> veri = jsonDecode(jsonString!);
-
-    setState(() {
-      strMeal = veri['meals'][0]['strMeal'];
-      strMealThumb = veri['meals'][0]['strMealThumb'];
-      x = strMeal;
-      //setstate to cubit
-      y = strMealThumb;
-    });
-  } */

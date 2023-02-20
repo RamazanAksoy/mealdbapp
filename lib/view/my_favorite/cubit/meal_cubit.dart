@@ -2,10 +2,12 @@ import 'dart:convert';
 
 // ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
+import 'package:mealdbapp/core/init/cache/locale_manager.dart';
 import 'package:mealdbapp/view/my_favorite/model/res_food_details.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'meal_state.dart';
+
 
 class MealCubit extends Cubit<MealState> {
   MealCubit() : super(MealState()) {
@@ -13,20 +15,25 @@ class MealCubit extends Cubit<MealState> {
   }
 
   Future<void> getLocalData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? jsonString = prefs.getString('meals');
-    print(jsonString);
-    // Map<String, dynamic> veri = jsonDecode(jsonString!);
-    emit(state.copyWith(foodDetails: jsonDecode(jsonString!)));
+    state.isLoading = false;
+    LocaleManager localeManager = LocaleManager.instance;
+    String? jsonString = localeManager.getStringValue('meals');
+
+    Map<String, dynamic> data = await jsonDecode(jsonString);
+    print(data);
+    ResFoodDetails dataRes =
+        ResFoodDetails.fromJson(await jsonDecode(jsonString));
+
+    print(dataRes.meals);
+
+    if (dataRes.meals!.isNotEmpty) {
+      emit(state.copyWith(foodDetails: dataRes));
+      print(state.isLoading);
+
+      print(dataRes.meals!.length);
+    } else {
+      print("boş");
+    }
+    state.isLoading = true;
   }
 }
-
-// Future<Map<String, dynamic>> getLocalData() async {
-//   SharedPreferences prefs = await SharedPreferences.getInstance();
-//   String? jsonString = prefs.getString('meals');
-//   Map<String, dynamic> veri = jsonDecode(jsonString!);
-//   print(veri);
-//   return veri; 
-//final strMeal = veri['meals'][0]['strMeal'];
-    // final strMealThumb = veri['meals'][0]['strMealThumb'];
-// }
