@@ -46,7 +46,7 @@ class FavoriteCubit extends Cubit<FavoriteState> {
     }
 
     if (state.isFavorite == true) {
-      mealsListShared?.removeLast();
+      mealsListShared?.removeWhere((element) => int.parse(element.idMeal ?? '0') == id);
       localeManager.setStringValue('fav', jsonEncode(mealsListShared));
       emit(state.copyWith(meals: mealsListShared, isFavorite: false));
     } else {
