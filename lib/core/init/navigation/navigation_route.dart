@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mealdbapp/view/search/view/search.dart';
 import 'package:mealdbapp/view/food_details/view/food_details.dart';
+
+import '../../../view/categories_details/view/categories_detail.dart';
+import '../../../view/widget/bottom_navigation_bar.dart';
 import '../../components/not_found_navigation_widget.dart';
 import '../../constants/navigation/navigation_constants.dart';
 
@@ -11,14 +15,25 @@ class NavigationRoute {
   Route<dynamic> generateRoute(RouteSettings args) {
     switch (args.name) {
       case NavigationConstants.DEFAULT:
-        return normalNavigate(FoodDetailsScreen(id: 52771), NavigationConstants.FOOD_DETAIL);
-      /*
-      case NavigationConstants.BUY_VIEW:
-        return normalNavigate(const BuyView(), NavigationConstants.BUY_VIEW);
+        return normalNavigate(const Tabbar(), NavigationConstants.DEFAULT);
 
-      case NavigationConstants.ON_BOARD:
-        return normalNavigate(const OnBoardView(), NavigationConstants.ON_BOARD);
-*/
+      case NavigationConstants.CATEGORY_DETAILS:
+        return normalNavigate(
+            CategoriesDetailsScreen(
+              categoryName: args.arguments.toString(),
+            ),
+            NavigationConstants.CATEGORY_DETAILS);
+
+      case NavigationConstants.SEARCH:
+        return normalNavigate(SearchScreen(), NavigationConstants.SEARCH);
+
+      case NavigationConstants.FOOD_DETAIL:
+        return normalNavigate(
+            FoodDetailsScreen(
+              foodId: int.parse(args.arguments.toString()),
+            ),
+            NavigationConstants.FOOD_DETAIL);
+
       default:
         return MaterialPageRoute(
           builder: (context) => const NotFoundNavigationWidget(),

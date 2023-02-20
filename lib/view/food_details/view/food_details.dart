@@ -17,10 +17,9 @@ import '../cubit/favorite_state.dart';
 import '../cubit/food_details_api_cubit.dart';
 
 class FoodDetailsScreen extends StatelessWidget {
-  FoodDetailsScreen({super.key, required this.id});
+  FoodDetailsScreen({super.key, required this.foodId});
 
-  final int id;
-
+  final int foodId;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,10 +32,10 @@ class FoodDetailsScreen extends StatelessWidget {
         child: MultiBlocProvider(
           providers: [
             BlocProvider(
-              create: (context) => FoodDetailsCubit(id),
+              create: (context) => FoodDetailsCubit(foodId),
             ),
             BlocProvider(
-              create: (context) => FavoriteCubit(id),
+              create: (context) => FavoriteCubit(foodId),
             ),
           ],
           child: BlocConsumer<FoodDetailsCubit, FoodDetailsState>(
@@ -231,7 +230,7 @@ class FoodDetailsScreen extends StatelessWidget {
         top: 36.5.h,
         child: FloatingActionButton(
           onPressed: () {
-            context.read<FavoriteCubit>().favoriButtonClick(id, state.foodDetails!.meals?[0]);
+            context.read<FavoriteCubit>().favoriButtonClick(foodId, state.foodDetails!.meals?[0]);
           },
           backgroundColor: AppColors.red,
           child: Icon(stateFavori.isFavorite == true ? Icons.favorite : Icons.favorite_border),
@@ -242,7 +241,7 @@ class FoodDetailsScreen extends StatelessWidget {
     return Positioned(
       //strMealThumb
       child: Image.network(
-        //"https://media.istockphoto.com/id/1411326800/photo/broccoli-salad.jpg?s=612x612&w=0&k=20&c=EDc0RhOfS4aKw8KiOfoENTWFzJTR_sJ3ut2XZzxKOEY=",
+        //"https://media.istockphoto.com/foodId/1411326800/photo/broccoli-salad.jpg?s=612x612&w=0&k=20&c=EDc0RhOfS4aKw8KiOfoENTWFzJTR_sJ3ut2XZzxKOEY=",
         "${state.foodDetails!.meals![0].strMealThumb}",
         fit: BoxFit.cover,
         height: 40.h,

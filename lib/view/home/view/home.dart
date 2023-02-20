@@ -4,6 +4,8 @@ import 'package:mealdbapp/core/extension/string_extension.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../core/constants/enums/reques.dart';
+import '../../../core/constants/navigation/navigation_constants.dart';
+import '../../../core/init/navigation/navigation_service.dart';
 import '../../../utils/box_decoration.dart';
 import '../../../utils/text_styles.dart';
 
@@ -38,7 +40,11 @@ class HomeScreen extends StatelessWidget {
             "Home",
             style: Styles.largeBoldFontStyle(),
           ),
-          const Icon(Icons.search),
+          GestureDetector(
+              onTap: () {
+                NavigationService.instance.navigateToPage(path: NavigationConstants.SEARCH);
+              },
+              child: const Icon(Icons.search)),
         ],
       ),
     );
@@ -97,15 +103,21 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Container buildRandomFood(HomeState state) {
-    return Container(
-      margin: EdgeInsets.only(top: 1.h, bottom: 3.h),
-      height: 18.h,
-      width: 100.w,
-      decoration: customBoxDecoration(
-          borderRadius: 5.w,
-          image: NetworkImage(state.foodDetails!.meals![0].strMealThumb!),
-          fit: BoxFit.cover),
+  Widget buildRandomFood(HomeState state) {
+    return GestureDetector(
+      onTap: () {
+        NavigationService.instance.navigateToPage(
+            path: NavigationConstants.FOOD_DETAIL, data: state.foodDetails!.meals![0].idMeal!);
+      },
+      child: Container(
+        margin: EdgeInsets.only(top: 1.h, bottom: 3.h),
+        height: 18.h,
+        width: 100.w,
+        decoration: customBoxDecoration(
+            borderRadius: 5.w,
+            image: NetworkImage(state.foodDetails!.meals![0].strMealThumb!),
+            fit: BoxFit.cover),
+      ),
     );
   }
 
@@ -144,16 +156,23 @@ class HomeScreen extends StatelessWidget {
         shrinkWrap: true,
         itemCount: state.categories!.categories!.length,
         itemBuilder: (context, index) {
-          return Container(
-            padding: EdgeInsets.only(top: 20.sp, right: 15.sp, left: 15.sp),
-            alignment: Alignment.center,
-            child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-              Image.network(state.categories!.categories![index].strCategoryThumb!),
-              Text(
-                state.categories!.categories![index].strCategory!,
-                style: Styles.normalBoldFontStyle(fontSize: 16.sp),
-              )
-            ]),
+          return GestureDetector(
+            onTap: () {
+              NavigationService.instance.navigateToPage(
+                  path: NavigationConstants.CATEGORY_DETAILS,
+                  data: state.categories!.categories![index].strCategory!);
+            },
+            child: Container(
+              padding: EdgeInsets.only(top: 20.sp, right: 15.sp, left: 15.sp),
+              alignment: Alignment.center,
+              child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+                Image.network(state.categories!.categories![index].strCategoryThumb!),
+                Text(
+                  state.categories!.categories![index].strCategory!,
+                  style: Styles.normalBoldFontStyle(fontSize: 16.sp),
+                )
+              ]),
+            ),
           );
         },
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
