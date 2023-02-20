@@ -3,7 +3,12 @@ import 'package:mealdbapp/view/home/model/random-food/res_food_details.dart';
 
 import '../../../core/constants/enums/reques.dart';
 
-class FoodDetailsState {
+abstract class MealAppState {
+  
+}
+
+
+class FoodDetailsState extends MealAppState{
   FoodDetailsState({
     required this.meals,
     this.isFavorite = false,
@@ -29,3 +34,6 @@ class FoodDetailsState {
         isFavorite: isFavorite ?? this.isFavorite,
       );
 }
+
+
+
