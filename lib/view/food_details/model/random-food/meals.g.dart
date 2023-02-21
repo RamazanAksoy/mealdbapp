@@ -1,5 +1,3 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
 part of 'meals.dart';
 
 // **************************************************************************
@@ -58,8 +56,7 @@ Meals _$MealsFromJson(Map<String, dynamic> json) => Meals(
       strMeasure20: json['strMeasure20'] as String?,
       strSource: json['strSource'] as String?,
       strImageSource: json['strImageSource'] as String?,
-      strCreativeCommonsConfirmed:
-          json['strCreativeCommonsConfirmed'] as String?,
+      strCreativeCommonsConfirmed: json['strCreativeCommonsConfirmed'] as String?,
       dateModified: json['dateModified'] as String?,
     );
 
