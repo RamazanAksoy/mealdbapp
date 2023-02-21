@@ -24,6 +24,16 @@ class Styles {
         height: height ?? 1.24,
       );
 
+        static TextStyle mediumFontStyle(
+          {double? fontSize, Color? color, double? height}) =>
+      GoogleFonts.tinos(
+        letterSpacing: 0.7,
+        fontSize: fontSize ?? 16.5.sp,
+        color: color ?? AppColors.black.withOpacity(0.65),
+        fontWeight: FontWeight.normal,
+        height: height ?? 1.24,
+      );
+
   static TextStyle largeFontStyle(
           {double? fontSize, Color? color, double? height}) =>
       GoogleFonts.tinos(
@@ -77,9 +87,10 @@ class Styles {
           {double? fontSize, Color? color, double? height}) =>
       GoogleFonts.tinos(
         fontSize: fontSize ?? 19.sp,
-        letterSpacing: 1.3,
+        letterSpacing: .5.w,
         color: color ?? AppColors.themeColor,
         fontWeight: FontWeight.w900,
         height: height ?? 1.24,
+        
       );
 }
