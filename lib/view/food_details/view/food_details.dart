@@ -90,7 +90,10 @@ class FoodDetailsScreen extends StatelessWidget {
             buildPositionedCategoryRow(state),
           ],
         ),
-        buildPositionedTag(state),
+        state.foodDetails?.meals?[0].strTags !=null
+        ? buildPositionedTag(state)
+        : const Text("")
+        ,
         buildPaddingInstructions(state, context)
       ],
     );
@@ -99,16 +102,21 @@ class FoodDetailsScreen extends StatelessWidget {
   Positioned buildPositionedReturnIconButton(BuildContext context) {
     return Positioned(
         child: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(
-              Icons.arrow_back_ios,
-              color: AppColors.red,
-            
-
-            
-            ),iconSize: 3.5.h,));
+      onPressed: () {
+        Navigator.pop(context);
+      },
+      icon: CircleAvatar(
+        backgroundColor: AppColors.white,
+        child: Padding(
+          padding: EdgeInsets.only(left: 2.w),
+          child: Icon(
+            Icons.arrow_back_ios,
+            color: AppColors.grey,
+          ),
+        ),
+      ),
+      iconSize: 3.5.h,
+    ));
   }
 
   Padding buildPaddingInstructions(
@@ -139,76 +147,45 @@ class FoodDetailsScreen extends StatelessWidget {
             children: [
               //buildYoutubeButton(context),
               GestureDetector(
-      onTap: () {
-        context.read<FoodDetailsCubit>().urlLauncher(Uri());
-      },
-      child: Container(
-        height: 6.h,
-        width: 65.w,
-        margin: EdgeInsets.symmetric(vertical: 1.7.h),
-        decoration: youtubeBoxDecoration(),
-        child: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.smart_display_outlined,
-                size: 5.5.h,
-                color: AppColors.white,
-              ),
-              SizedBox(
-                width: 1.w,
-              ),
-              Text(
-                "Watch the Tutorial Video",
-                style: Styles.normalWhiteBoldFontStyle(),
+                onTap: () {
+                  context
+                      .read<FoodDetailsCubit>()
+                      .urlLauncher(state.foodDetails?.meals![0].strYoutube);
+                  //context.read<FoodDetailsCubit>().urlLauncher();
+                },
+                child: Container(
+                  height: 6.h,
+                  width: 65.w,
+                  margin: EdgeInsets.symmetric(vertical: 1.7.h),
+                  decoration: youtubeBoxDecoration(),
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.smart_display_outlined,
+                          size: 5.5.h,
+                          color: AppColors.white,
+                        ),
+                        SizedBox(
+                          width: 1.w,
+                        ),
+                        Text(
+                          "Watch the Tutorial Video",
+                          style: Styles.normalWhiteBoldFontStyle(),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
               )
-            ],
-          ),
-        ),
-      ),
-    )
             ],
           )
         ],
       ),
     );
   }
-
-  /* GestureDetector buildYoutubeButton(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        context.read<FoodDetailsCubit>().urlLauncher(Uri());
-      },
-      child: Container(
-        height: 6.h,
-        width: 65.w,
-        margin: EdgeInsets.symmetric(vertical: 1.7.h),
-        decoration: youtubeBoxDecoration(),
-        child: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.smart_display_outlined,
-                size: 5.5.h,
-                color: AppColors.white,
-              ),
-              SizedBox(
-                width: 1.w,
-              ),
-              Text(
-                "Watch the Tutorial Video",
-                style: Styles.normalWhiteBoldFontStyle(),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  } */
 
   Padding buildPositionedTag(FoodDetailsState state) {
     return Padding(
@@ -222,10 +199,7 @@ class FoodDetailsScreen extends StatelessWidget {
             style: Styles.normalBoldFontStyle(),
             overflow: TextOverflow.ellipsis,
           ),
-          Text(
-              state.foodDetails?.meals?[0].strTags != null
-                  ? "${state.foodDetails?.meals?[0].strTags}"
-                  : "",
+          Text("${state.foodDetails?.meals?[0].strTags}",
               style: Styles.normalBoldFontStyle()),
           SizedBox(
             width: 3.w,
@@ -291,7 +265,7 @@ class FoodDetailsScreen extends StatelessWidget {
   Positioned buildPositionedFavoriButton(
       BuildContext context, FoodDetailsState state, FavoriteState stateFavori) {
     return Positioned(
-        left: 80.w,
+        left: 83.w,
         top: 36.5.h,
         child: FloatingActionButton(
           onPressed: () {
