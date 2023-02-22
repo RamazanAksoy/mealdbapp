@@ -1,6 +1,6 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:mealdbapp/view/food_details_hive.dart/favori.dart';
 
+import '../../../view/food_details/model/food_details_hive.dart/favori.dart';
 import '../../constants/enums/hive_key.dart';
 
 class BaseCacheManager<T> {

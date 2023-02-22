@@ -1,1 +1,1 @@
-enum CacheBoxNames { auth, todo }
+enum CacheBoxNames { favori, todo }

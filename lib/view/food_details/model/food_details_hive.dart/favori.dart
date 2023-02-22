@@ -4,19 +4,19 @@ part 'favori.g.dart';
 
 @HiveType(typeId: 1)
 class Favori {
-  Favori({required this.name, required this.age, required this.friends});
+  Favori({this.name, this.idMeal, this.photoUrl});
 
   @HiveField(0)
-  String name;
+  String? name;
 
   @HiveField(1)
-  int age;
+  String? idMeal;
 
   @HiveField(2)
-  List<String> friends;
+  String? photoUrl;
 
   @override
   String toString() {
-    return '$name: $age';
+    return '$name: $idMeal';
   }
 }

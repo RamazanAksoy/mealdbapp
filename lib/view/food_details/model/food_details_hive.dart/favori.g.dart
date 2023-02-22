@@ -17,9 +17,9 @@ class FavoriAdapter extends TypeAdapter<Favori> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Favori(
-      name: fields[0] as String,
-      age: fields[1] as int,
-      friends: (fields[2] as List).cast<String>(),
+      name: fields[0] as String?,
+      idMeal: fields[1] as String?,
+      photoUrl: fields[2] as String?,
     );
   }
 
@@ -30,9 +30,9 @@ class FavoriAdapter extends TypeAdapter<Favori> {
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
-      ..write(obj.age)
+      ..write(obj.idMeal)
       ..writeByte(2)
-      ..write(obj.friends);
+      ..write(obj.photoUrl);
   }
 
   @override

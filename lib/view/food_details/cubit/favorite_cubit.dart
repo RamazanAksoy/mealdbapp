@@ -56,3 +56,64 @@ class FavoriteCubit extends Cubit<FavoriteState> {
     }
   }
 }
+
+/* 
+class FavoriteCubit extends Cubit<FavoriteState> {
+  FavoriteCubit(int id) : super(FavoriteState())  {
+    _manager.openBox();
+    favoriCheck(id);
+  }
+
+  LocaleManager localeManager = LocaleManager.instance;
+  FavSharedRepository favSharedRepository = FavSharedRepository();
+  final BaseCacheManager<Favori> _manager = BaseCacheManager<Favori>(CacheBoxNames.favori);
+
+  favoriCheck(int id)  {
+    bool favorite = false;
+    List<Favori>? mealsListShared = _manager.getAllItems();
+    if (mealsListShared != null) {
+      for (var i = 0; i < mealsListShared.length; i++) {
+        if (int.parse(mealsListShared[i].idMeal ?? '0') == id) {
+          favorite = true;
+          break;
+        } else {
+          favorite = false;
+        }
+      }
+    }
+    emit(state.copyWith(isFavorite: favorite));
+
+  }
+
+  Future favoriButtonClick(int id, Meals? meals) async {
+    List<Favori>? mealsListShared = _manager.getAllItems();
+    if (mealsListShared != null) {
+      for (var i = 0; i < mealsListShared!.length; i++) {
+        if (int.parse(mealsListShared[i].idMeal ?? '0') == id) {
+          state.copyWith(isFavorite: true);
+          break;
+        } else {
+          state.copyWith(isFavorite: false);
+        }
+      }
+    }
+
+    if (state.isFavorite == true) {
+      mealsListShared?.removeWhere((element) => int.parse(element.idMeal ?? '0') == id);
+      //localeManager.setStringValue('fav', jsonEncode(mealsListShared));
+      _manager.saveAllItems(mealsListShared);
+      emit(state.copyWith(isFavorite: false));
+    } else {
+      mealsListShared
+          ?.add(Favori(idMeal: meals?.idMeal, name: meals?.strArea, photoUrl: meals?.strMealThumb));
+      // localeManager.setStringValue('fav', jsonEncode(mealsListShared));
+      _manager.saveAllItems(mealsListShared);
+
+      emit(state.copyWith(isFavorite: true));
+    }
+  }
+
+
+
+}
+*/
