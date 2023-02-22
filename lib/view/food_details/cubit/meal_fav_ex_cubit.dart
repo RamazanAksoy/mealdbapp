@@ -23,14 +23,16 @@ class MealFavExCubit extends Cubit<MealFavExState> {
   FavSharedRepository favSharedRepository = FavSharedRepository();
   ResFoodDetails? resFoodDetails;
   FoodDetailsService api = FoodDetailsService();
-  bool isLoaded = true;
+  bool isThereAnyError = true;
   bool isFavButton = true;
 
+  //Hata verdiğinde hata ekranına gönderen değişkeni değiştiren fonk.
   void errorCheck() {
-    isLoaded = !isLoaded;
+    isThereAnyError = !isThereAnyError;
     emit(MealFavExErrorWidgetState());
   }
 
+  //Youtube'a url ile video'ya giden fonk.
   Future<void> urlLauncher(String? url) async {
     final Uri url2 = Uri.parse(url ?? "");
     try {

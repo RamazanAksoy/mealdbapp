@@ -1,23 +1,14 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mealdbapp/core/constants/enums/reques.dart';
+import 'package:mealdbapp/core/constants/themes/colors.dart';
 import 'package:mealdbapp/utils/box_decoration.dart';
-import 'package:mealdbapp/view/food_details/cubit/favorite_cubit.dart';
-import 'package:mealdbapp/view/food_details/cubit/food_details_api_state.dart';
-
-import 'package:mealdbapp/view/widget/error.dart';
+import 'package:mealdbapp/utils/text_styles.dart';
+import 'package:mealdbapp/view/food_details/cubit/meal_fav_ex_cubit.dart';
 import 'package:mealdbapp/view/widget/loading.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../../core/constants/themes/colors.dart';
-import '../../../utils/text_styles.dart';
-import '../cubit/favorite_state.dart';
-import '../cubit/food_details_api_cubit.dart';
-
 class FoodDetailsScreen extends StatelessWidget {
-  FoodDetailsScreen({super.key, required this.foodId});
+  const FoodDetailsScreen({super.key, required this.foodId});
 
   final int foodId;
   @override
@@ -29,45 +20,24 @@ class FoodDetailsScreen extends StatelessWidget {
         backgroundColor: AppColors.red,
       ),
       body: SingleChildScrollView(
-        child: MultiBlocProvider(
-          providers: [
-            BlocProvider(
-              create: (context) => FoodDetailsCubit(foodId),
-            ),
-            BlocProvider(
-              create: (context) => FavoriteCubit(foodId),
-            ),
-          ],
-          child: BlocConsumer<FoodDetailsCubit, FoodDetailsState>(
-            listener: (context, state) {},
-            builder: (context, state) {
-              return state.foodDetailsStatus == ApiRequest.requestInProgress
-                  ? const Loading()
-                  : state.foodDetailsStatus == ApiRequest.requestSuccess
-                      ? buildColumn(state, context)
-                      : buildEror(context);
-            },
-          ),
-        ),
-      ),
-    );
-  }
-
-  SizedBox buildEror(BuildContext context) {
-    return SizedBox(
-      height: 100.h,
-      width: 100.w,
-      child: Center(
-        child: ErrorApi(
-          onRety: () {
-            context.read<FoodDetailsCubit>().loadFoodDetails(52772);
+          child: BlocProvider(
+        create: (context) => MealFavExCubit(foodId),
+        child: BlocConsumer<MealFavExCubit, MealFavExState>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            var read = context.read<MealFavExCubit>();
+            var watch = context.watch<MealFavExCubit>();
+            return read.isThereAnyError != true
+                ? buildColumn(read, context, watch)
+                : const Loading();
           },
         ),
-      ),
+      )),
     );
   }
 
-  Column buildColumn(FoodDetailsState state, BuildContext context) {
+  Column buildColumn(
+      MealFavExCubit cubit, BuildContext context, MealFavExCubit watch) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,23 +48,17 @@ class FoodDetailsScreen extends StatelessWidget {
               height: 46.7.h,
               width: double.infinity,
             ),
-            buildPositionedImage(state),
-            BlocConsumer<FavoriteCubit, FavoriteState>(
-                listener: (context, state) {},
-                builder: (context, stateFavori) {
-                  return buildPositionedFavoriButton(
-                      context, state, stateFavori);
-                }),
+            buildPositionedImage(cubit),
+            buildPositionedFavoriButton(cubit, watch),
             buildPositionedReturnIconButton(context),
-            buildPositionedTextName(state),
-            buildPositionedCategoryRow(state),
+            buildPositionedTextName(cubit),
+            buildPositionedCategoryRow(cubit),
           ],
         ),
-        state.foodDetails?.meals?[0].strTags !=null
-        ? buildPositionedTag(state)
-        : const Text("")
-        ,
-        buildPaddingInstructions(state, context)
+        cubit.resFoodDetails?.meals?[0].strTags != null
+            ? buildPositionedTag(cubit)
+            : const Text(""),
+        buildPaddingInstructions(cubit)
       ],
     );
   }
@@ -109,7 +73,7 @@ class FoodDetailsScreen extends StatelessWidget {
         backgroundColor: AppColors.white,
         child: Padding(
           padding: EdgeInsets.only(left: 2.w),
-          child: Icon(
+          child: const Icon(
             Icons.arrow_back_ios,
             color: AppColors.grey,
           ),
@@ -119,8 +83,7 @@ class FoodDetailsScreen extends StatelessWidget {
     ));
   }
 
-  Padding buildPaddingInstructions(
-      FoodDetailsState state, BuildContext context) {
+  Padding buildPaddingInstructions(MealFavExCubit cubit) {
     return Padding(
       padding: EdgeInsets.only(left: 2.5.w, right: 2.5.w, bottom: 1.h),
       child: Column(
@@ -138,20 +101,18 @@ class FoodDetailsScreen extends StatelessWidget {
                     top: .7.h,
                   ),
                   child: Text(
-                    "${state.foodDetails?.meals![0].strInstructions}",
+                    cubit.resFoodDetails?.meals![0].strInstructions != null
+                        ? "${cubit.resFoodDetails?.meals![0].strInstructions}"
+                        : "Theres no instructions",
                     style: Styles.mediumFontStyle(),
                   ))),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              //buildYoutubeButton(context),
               GestureDetector(
                 onTap: () {
-                  context
-                      .read<FoodDetailsCubit>()
-                      .urlLauncher(state.foodDetails?.meals![0].strYoutube);
-                  //context.read<FoodDetailsCubit>().urlLauncher();
+                  cubit.urlLauncher(cubit.resFoodDetails?.meals?[0].strYoutube);
                 },
                 child: Container(
                   height: 6.h,
@@ -187,7 +148,7 @@ class FoodDetailsScreen extends StatelessWidget {
     );
   }
 
-  Padding buildPositionedTag(FoodDetailsState state) {
+  Padding buildPositionedTag(MealFavExCubit cubit) {
     return Padding(
       padding: EdgeInsets.only(left: 2.1.w, right: 2.5.w, bottom: 1.h),
       child: Row(
@@ -199,7 +160,7 @@ class FoodDetailsScreen extends StatelessWidget {
             style: Styles.normalBoldFontStyle(),
             overflow: TextOverflow.ellipsis,
           ),
-          Text("${state.foodDetails?.meals?[0].strTags}",
+          Text("${cubit.resFoodDetails?.meals?[0].strTags}",
               style: Styles.normalBoldFontStyle()),
           SizedBox(
             width: 3.w,
@@ -209,7 +170,7 @@ class FoodDetailsScreen extends StatelessWidget {
     );
   }
 
-  Positioned buildPositionedCategoryRow(FoodDetailsState state) {
+  Positioned buildPositionedCategoryRow(MealFavExCubit cubit) {
     return Positioned(
       left: 2.w,
       top: 43.5.h,
@@ -223,8 +184,8 @@ class FoodDetailsScreen extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
           Text(
-              state.foodDetails?.meals?[0].strCategory != null
-                  ? "${state.foodDetails?.meals?[0].strCategory}"
+              cubit.resFoodDetails?.meals?[0].strCategory != null
+                  ? "${cubit.resFoodDetails?.meals?[0].strCategory}"
                   : "",
               style: Styles.normalBoldFontStyle()),
           SizedBox(
@@ -233,8 +194,8 @@ class FoodDetailsScreen extends StatelessWidget {
           const Icon(Icons.location_on, color: AppColors.black),
           Text("Origin Country:", style: Styles.normalBoldFontStyle()),
           Text(
-              state.foodDetails?.meals?[0].strArea != null
-                  ? "${state.foodDetails?.meals?[0].strArea}"
+              cubit.resFoodDetails?.meals?[0].strArea != null
+                  ? "${cubit.resFoodDetails?.meals?[0].strArea}"
                   : "",
               style: Styles.normalBoldFontStyle()),
         ],
@@ -242,7 +203,7 @@ class FoodDetailsScreen extends StatelessWidget {
     );
   }
 
-  Positioned buildPositionedTextName(FoodDetailsState state) {
+  Positioned buildPositionedTextName(MealFavExCubit cubit) {
     return Positioned(
       left: 2.w,
       top: 40.h,
@@ -252,7 +213,7 @@ class FoodDetailsScreen extends StatelessWidget {
           SizedBox(
             width: 80.w,
             child: Text(
-              state.foodDetails!.meals![0].strMeal.toString(),
+              cubit.resFoodDetails!.meals![0].strMeal.toString(),
               style: Styles.largeBoldFontStyle(),
               overflow: TextOverflow.ellipsis,
             ),
@@ -263,29 +224,27 @@ class FoodDetailsScreen extends StatelessWidget {
   }
 
   Positioned buildPositionedFavoriButton(
-      BuildContext context, FoodDetailsState state, FavoriteState stateFavori) {
+      MealFavExCubit cubit, MealFavExCubit watch) {
     return Positioned(
         left: 83.w,
         top: 36.5.h,
         child: FloatingActionButton(
           onPressed: () {
-            context
-                .read<FavoriteCubit>()
-                .favoriButtonClick(foodId, state.foodDetails!.meals?[0]);
+            cubit.favoriButtonClick(foodId, cubit.resFoodDetails!.meals?[0]);
           },
           backgroundColor: AppColors.red,
-          child: Icon(stateFavori.isFavorite == true
+          child: Icon(watch.isFavButton == true
               ? Icons.favorite
               : Icons.favorite_border),
         ));
   }
 
-  Positioned buildPositionedImage(FoodDetailsState state) {
+  Positioned buildPositionedImage(MealFavExCubit cubit) {
     return Positioned(
-      //strMealThumb
       child: Image.network(
-        //"https://media.istockphoto.com/foodId/1411326800/photo/broccoli-salad.jpg?s=612x612&w=0&k=20&c=EDc0RhOfS4aKw8KiOfoENTWFzJTR_sJ3ut2XZzxKOEY=",
-        "${state.foodDetails!.meals![0].strMealThumb}",
+        cubit.resFoodDetails!.meals![0].strMealThumb != null
+            ? "${cubit.resFoodDetails!.meals![0].strMealThumb}"
+            : "https://artsmidnorthcoast.com/wp-content/uploads/2014/05/no-image-available-icon-6.png",
         fit: BoxFit.cover,
         height: 40.h,
         width: 100.w,
