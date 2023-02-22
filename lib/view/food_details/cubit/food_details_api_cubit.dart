@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:mealdbapp/core/constants/themes/colors.dart';
 import 'package:mealdbapp/utils/text_styles.dart';
 import 'package:mealdbapp/view/food_details/cubit/food_details_api_state.dart';
+import 'package:mealdbapp/view/my_favorite/model/res_food_details.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
