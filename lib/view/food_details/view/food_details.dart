@@ -34,7 +34,9 @@ class FoodDetailsScreen extends StatelessWidget {
             builder: (contextProvider, state) {
               var read = contextProvider.read<FoodDetailsCubit>();
               var watch = contextProvider.watch<FoodDetailsCubit>();
-              return read.isLoading == false ? const Loading() : buildColumn(read, context, watch);
+              return read.isLoading == false
+                  ? const Loading()
+                  : buildColumn(read, context, watch);
             },
           ),
         ),
@@ -42,7 +44,8 @@ class FoodDetailsScreen extends StatelessWidget {
     );
   }
 
-  Column buildColumn(FoodDetailsCubit read, BuildContext context, FoodDetailsCubit watch) {
+  Column buildColumn(
+      FoodDetailsCubit read, BuildContext context, FoodDetailsCubit watch) {
     print("column tekrar çizildi");
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -61,7 +64,9 @@ class FoodDetailsScreen extends StatelessWidget {
             buildPositionedCategoryRow(read),
           ],
         ),
-        read.resFoodDetails?.meals?[0].strTags != null ? buildPositionedTag(read) : const Text(""),
+        read.resFoodDetails?.meals?[0].strTags != null
+            ? buildPositionedTag(read)
+            : const SizedBox(),
         buildPaddingInstructions(read)
       ],
     );
@@ -162,7 +167,8 @@ class FoodDetailsScreen extends StatelessWidget {
             style: Styles.normalBoldFontStyle(),
             overflow: TextOverflow.ellipsis,
           ),
-          Text("${state.resFoodDetails?.meals?[0].strTags}", style: Styles.normalBoldFontStyle()),
+          Text("${state.resFoodDetails?.meals?[0].strTags}",
+              style: Styles.normalBoldFontStyle()),
           SizedBox(
             width: 3.w,
           ),
@@ -236,7 +242,9 @@ class FoodDetailsScreen extends StatelessWidget {
             state.favoriButtonClick(foodId, state.resFoodDetails!.meals?[0]);
           },
           backgroundColor: AppColors.red,
-          child: Icon(watch.isFavorite == true ? Icons.favorite : Icons.favorite_border),
+          child: Icon(watch.isFavorite == true
+              ? Icons.favorite
+              : Icons.favorite_border),
         ));
   }
 
