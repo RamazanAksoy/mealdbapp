@@ -30,14 +30,11 @@ class FavSharedRepository {
 
   List<Meals>? favouriteState() {
     List<Meals>? mealsListShared = List.empty(growable: true);
-    if (
-        localeManager.getStringValue('fav') != '' &&
+    if (localeManager.getStringValue('fav') != '' &&
         localeManager.getStringValue('fav') != null &&
-        localeManager.getStringValue('fav') != 'null'
-        ) {
+        localeManager.getStringValue('fav') != 'null') {
       List<dynamic> res = jsonDecode(localeManager.getStringValue('fav'));
       mealsListShared = res.map((e) => Meals.fromJson(e)).toList();
-      print(mealsListShared?.length.toString());
     }
     return mealsListShared;
   }
