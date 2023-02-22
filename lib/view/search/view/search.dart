@@ -76,7 +76,7 @@ class SearchScreen extends StatelessWidget {
               : state.searchStatus == ApiRequest.requestSuccess
                   ? buildListView(state)
                   : const Center(child: Text('Data not found'));
-          ;
+          
         },
       ),
     );
