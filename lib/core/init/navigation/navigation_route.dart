@@ -3,6 +3,7 @@ import 'package:mealdbapp/view/search/view/search.dart';
 import 'package:mealdbapp/view/food_details/view/food_details.dart';
 
 import '../../../view/categories_details/view/categories_detail.dart';
+import '../../../view/cubit_Example/view/testt.dart';
 import '../../../view/widget/bottom_navigation_bar.dart';
 import '../../components/not_found_navigation_widget.dart';
 import '../../constants/navigation/navigation_constants.dart';
@@ -15,7 +16,7 @@ class NavigationRoute {
   Route<dynamic> generateRoute(RouteSettings args) {
     switch (args.name) {
       case NavigationConstants.DEFAULT:
-        return normalNavigate(const Tabbar(), NavigationConstants.DEFAULT);
+        return normalNavigate(const TesttScreen(), NavigationConstants.DEFAULT);
 
       case NavigationConstants.CATEGORY_DETAILS:
         return normalNavigate(
