@@ -12,6 +12,7 @@ class Testt2Screen extends StatelessWidget {
       child: BlocProvider<Test2Cubit>(
           create: (context) => Test2Cubit(),
           child: BlocConsumer<Test2Cubit, Test2State>(
+              buildWhen: (previous, current) => current is Test2Loading,
               listener: (context, state) {},
               builder: (contextt, state) {
                 print("Bütün sayfa");
@@ -21,6 +22,7 @@ class Testt2Screen extends StatelessWidget {
                         children: [
                           const Text("veriler geldi"),
                           BlocConsumer<Test2Cubit, Test2State>(
+                              buildWhen: (previous, current) => current is Test2Count,
                               listener: (context, state) {},
                               builder: (contextt, state2) {
                                 print("buton ");
