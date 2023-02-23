@@ -1,16 +1,66 @@
-# mealdbapp
+**MealDbApp**
 
-A new Flutter project.
+In order to get packages used on this project, you can run with "flutter pub get" to terminal after cloning. 
 
-## Getting Started
+This project contains basic usage of dio,cubit,shared preferences.
 
-This project is a starting point for a Flutter application.
+Check for more about themealdb api : https://www.themealdb.com/
 
-A few resources to get you started if this is your first Flutter project:
+<pre>
+# Project tree
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+├───core
+│   ├───base
+│   │   └───model
+│   ├───components
+│   ├───constants
+│   │   ├───app
+│   │   ├───endpoints
+│   │   ├───enums
+│   │   ├───image
+│   │   ├───navigation
+│   │   └───themes
+│   ├───extension
+│   └───init
+│       ├───cache
+│       ├───di
+│       ├───navigation
+│       └───network
+│           └───network_core
+├───feature
+│   ├───categories
+│   │   ├───cubit
+│   │   ├───model
+│   │   ├───service
+│   │   └───view
+│   ├───categories_details
+│   │   ├───cubit
+│   │   ├───model
+│   │   ├───service
+│   │   └───view
+│   ├───food_details
+│   │   ├───cubit
+│   │   ├───service
+│   │   └───view
+│   ├───home
+│   │   ├───cubit
+│   │   ├───model
+│   │   │   ├───categories
+│   │   │   ├───populer-items
+│   │   │   └───random-food
+│   │   ├───service
+│   │   └───view
+│   ├───my_favorite
+│   │   ├───cubit
+│   │   ├───model
+│   │   └───view
+│   └───search
+│       ├───cubit
+│       ├───service
+│       └───view
+└───product
+    ├───utils
+    └───widget
+    
+    
+</pre> 
