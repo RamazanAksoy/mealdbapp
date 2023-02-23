@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mealdbapp/view/search/view/search.dart';
-import 'package:mealdbapp/view/food_details/view/food_details.dart';
 
-import '../../../view/categories_details/view/categories_detail.dart';
-import '../../../view/widget/bottom_navigation_bar.dart';
+import '../../../feature/categories_details/view/categories_detail.dart';
+import '../../../feature/food_details/view/food_details.dart';
+import '../../../feature/search/view/search.dart';
+import '../../../product/widget/bottom_navigation_bar.dart';
 import '../../components/not_found_navigation_widget.dart';
 import '../../constants/navigation/navigation_constants.dart';
 
