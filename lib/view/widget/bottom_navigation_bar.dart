@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mealdbapp/view/home/view/home.dart';
+import 'package:mealdbapp/view/my_favorite/view/my_favorite.dart';
 import '../../core/constants/themes/colors.dart';
 import '../../utils/text_styles.dart';
 import '../categories/view/categories.dart';
@@ -16,10 +17,7 @@ class _TabbarState extends State<Tabbar> {
   static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
-    Text(
-      'Favori',
-      style: optionStyle,
-    ),
+    MyFavoriteScreen(),
     CategoriesScreen(),
   ];
 

@@ -3,8 +3,11 @@ import 'dart:convert';
 // ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
 import 'package:mealdbapp/core/init/cache/locale_manager.dart';
+import 'package:mealdbapp/view/home/model/random-food/meals.dart';
 
 import 'package:mealdbapp/view/my_favorite/model/res_food_details.dart';
+
+import '../../food_details/service/food_details_service.dart';
 
 part 'meal_state.dart';
 
@@ -12,17 +15,15 @@ class MealCubit extends Cubit<MealState> {
   MealCubit() : super(MealState()) {
     init();
   }
+  FavSharedRepository favSharedRepository = FavSharedRepository();
+  LocaleManager localeManager = LocaleManager.instance;
 
   Future getLocalData() async {
     try {
       emit(state.copyWith(isLoading: false));
-      LocaleManager localeManager = LocaleManager.instance;
-      String? jsonString = localeManager.getStringValue('meals');
+      List<Meals>? mealsListShared = favSharedRepository.favouriteState();
 
-      ResFoodDetails dataRes =
-          ResFoodDetails.fromJson(await jsonDecode(jsonString));
-
-      emit(state.copyWith(foodDetails: dataRes, isLoading: true));
+      emit(state.copyWith(foodDetails: mealsListShared, isLoading: true));
     } catch (e) {
       print(e);
     }
@@ -32,16 +33,13 @@ class MealCubit extends Cubit<MealState> {
     await getLocalData();
   }
 
-  deleteValue(index) async {
+  deleteValue(int index) async {
     try {
-      LocaleManager localeManager = LocaleManager.instance;
-      String? jsonString = localeManager.getStringValue('meals');
+      List<Meals>? mealsListShared = favSharedRepository.favouriteState();
 
-      Map<String, dynamic> map = await jsonDecode(jsonString);
-      List list = [];
-      map.entries.map((e) => list.add({e.key: e.value})).toList();
-      list[0]['meals'].removeAt(index);
-      localeManager.setStringValue('meals', jsonEncode(list[0]));
+      mealsListShared?.removeWhere((element) => int.parse(element.idMeal ?? '0') == index);
+      localeManager.setStringValue('fav', jsonEncode(mealsListShared));
+
       getLocalData();
     } catch (e) {
       print(e);

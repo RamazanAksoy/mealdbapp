@@ -1,13 +1,11 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mealdbapp/core/init/cache/locale_manager.dart';
 import 'package:mealdbapp/view/my_favorite/cubit/meal_cubit.dart';
 
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../core/constants/navigation/navigation_constants.dart';
+import '../../../core/init/navigation/navigation_service.dart';
 import '../../../utils/text_styles.dart';
 
 class MyFavoriteScreen extends StatelessWidget {
@@ -17,12 +15,12 @@ class MyFavoriteScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child:  Column(
-                children: [
-                  buildAppBar(context),
-                  buildGridView(),
-                ],
-        
+        physics: const NeverScrollableScrollPhysics(),
+        child: Column(
+          children: [
+            buildAppBar(context),
+            SizedBox(height: 84.h, child: buildGridView()),
+          ],
         ),
       ),
     );
@@ -31,8 +29,7 @@ class MyFavoriteScreen extends StatelessWidget {
 
 Container buildAppBar(BuildContext context) {
   return Container(
-    padding:
-        EdgeInsets.only(left: 5.w, top: MediaQuery.of(context).padding.top),
+    padding: EdgeInsets.only(left: 5.w, top: MediaQuery.of(context).padding.top),
     height: 10.h,
     child: Row(children: [
       Text(
@@ -49,18 +46,20 @@ Widget buildGridView() {
     child: BlocConsumer<MealCubit, MealState>(
       listener: (context, state) {},
       builder: (blocContext, state) {
-       
         return state.isLoading == true
-            ? state.foodDetails!.meals!.isNotEmpty
+            ? state.foodDetails!.isNotEmpty
                 ? GridView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     padding: const EdgeInsets.all(0),
                     shrinkWrap: true,
-                    itemCount: state.foodDetails!.meals!.length,
+                    itemCount: state.foodDetails!.length,
                     itemBuilder: (context, index) {
                       return InkWell(
                           onTap: () {
                             //food detail sayfasına gidecek!
+                            NavigationService.instance.navigateToPage(
+                                path: NavigationConstants.FOOD_DETAIL,
+                                data: state.foodDetails![0].idMeal!);
                           },
                           child: Container(
                               padding: EdgeInsets.all(15.sp),
@@ -74,26 +73,22 @@ Widget buildGridView() {
                                     color: Colors.grey.withOpacity(0.5),
                                     spreadRadius: 0.1,
                                     blurRadius: 1.5,
-                                    offset: const Offset(
-                                        0, 0), // changes position of shadow
+                                    offset: const Offset(0, 0), // changes position of shadow
                                   ),
                                 ],
                               ),
                               child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   children: [
-                                    Image.network(state.foodDetails!
-                                        .meals![index].strMealThumb!),
+                                    Image.network(state.foodDetails![index].strMealThumb!),
                                     Text(
-                                      state.foodDetails!.meals![index].strMeal!,
-                                      style: Styles.largeFontStyle()
-                                          .copyWith(fontSize: 19.sp),
+                                      state.foodDetails![index].strMeal!,
+                                      style: Styles.largeFontStyle().copyWith(fontSize: 19.sp),
                                     ),
-                                   
                                     IconButton(
                                         onPressed: () {
-                                          customShowDialog(blocContext, index);
+                                          customShowDialog(blocContext,
+                                              int.parse(state.foodDetails?[index].idMeal ?? ''));
                                         },
                                         icon: const Icon(
                                           Icons.favorite,
@@ -102,9 +97,8 @@ Widget buildGridView() {
                                         ))
                                   ])));
                     },
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 1, childAspectRatio: 4 / 5),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 1, childAspectRatio: 4 / 5),
                   )
                 : const Center(child: Text("Favori Ürün Bulunmamaktadır!"))
             : const Center(child: CircularProgressIndicator());
@@ -113,7 +107,7 @@ Widget buildGridView() {
   );
 }
 
-customShowDialog(BuildContext blocContext, index) {
+customShowDialog(BuildContext blocContext, int index) {
   showDialog(
     context: blocContext,
     builder: (BuildContext context) {

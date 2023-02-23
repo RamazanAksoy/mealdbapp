@@ -61,6 +61,7 @@ class CategoriesScreen extends StatelessWidget {
 
   Widget buildGridView(CategoriesState state) {
     return GridView.builder(
+      physics: BouncingScrollPhysics(),
       padding: const EdgeInsets.all(0),
       shrinkWrap: true,
       itemCount: state.categories!.categories!.length,

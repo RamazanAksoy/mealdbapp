@@ -1,25 +1,13 @@
 part of 'meal_cubit.dart';
 
 class MealState {
-  MealState({this.foodDetails,this.isLoading=false});
-  final ResFoodDetails? foodDetails;
-  
-   bool? isLoading ;
+  MealState({this.foodDetails, this.isLoading = false});
+  final List<Meals>? foodDetails;
 
+  bool? isLoading;
 
-  MealState copyWith({ResFoodDetails? foodDetails,isLoading}) {
+  MealState copyWith({List<Meals>? foodDetails, isLoading}) {
     return MealState(
-      foodDetails: foodDetails ?? this.foodDetails,
-      isLoading: isLoading??this.isLoading
-      
-      
-      
-    );
+        foodDetails: foodDetails ?? this.foodDetails, isLoading: isLoading ?? this.isLoading);
   }
-
-  
-
-  
 }
-
-
