@@ -6,7 +6,18 @@ This project contains basic usage of dio,cubit,shared preferences.
 
 Check for more about themealdb api : https://www.themealdb.com/
 
+
+
+https://user-images.githubusercontent.com/61667679/221189592-70af8f7a-982f-49aa-add6-36d191dd4193.mp4
+
+
+
+
+
 <pre>
+
+
+
 # Project tree
 
 ├───core
