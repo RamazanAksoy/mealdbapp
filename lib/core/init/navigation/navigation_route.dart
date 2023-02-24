@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mealdbapp/feature/pagination/view/page.dart';
+import 'package:mealdbapp/feature/pagination/view/pagination_listview.dart';
 
 import '../../../feature/categories_details/view/categories_detail.dart';
 import '../../../feature/food_details/view/food_details.dart';
+import '../../../feature/pagination/view/pagination_sliver.dart';
 import '../../../feature/search/view/search.dart';
 import '../../../product/widget/bottom_navigation_bar.dart';
 import '../../components/not_found_navigation_widget.dart';
@@ -16,7 +17,7 @@ class NavigationRoute {
   Route<dynamic> generateRoute(RouteSettings args) {
     switch (args.name) {
       case NavigationConstants.DEFAULT:
-        return normalNavigate(PaginationScreen(), NavigationConstants.DEFAULT);
+        return normalNavigate(PaginationSliverScreen(), NavigationConstants.DEFAULT);
 
       case NavigationConstants.CATEGORY_DETAILS:
         return normalNavigate(
