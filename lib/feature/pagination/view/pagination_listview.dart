@@ -15,22 +15,29 @@ class PaginationScreen extends StatelessWidget {
             listener: (context, state) {},
             builder: (context, state) {
               PaginationCubit read = context.read<PaginationCubit>();
-              return ListView.builder(
-                  controller: read.sscontroller,
-                  itemCount: (read.resUserData?.length ?? 0) + 1,
-                  itemBuilder: (context, index) => index < (read.resUserData?.length ?? 0)
-                      ? listItemWidget(read, index)
-                      : loadingWidget());
+              return buildListview(read);
             },
           ),
         ));
   }
 
-  ListTile listItemWidget(PaginationCubit read, int index) {
-    return ListTile(
-      leading: const Icon(Icons.arrow_right),
-      title: Text(read.resUserData?[index].author ?? ''),
-      subtitle: Text(read.resUserData?[index].url ?? ''),
+  ListView buildListview(PaginationCubit read) {
+    return ListView.builder(
+        controller: read.sscontroller,
+        itemCount: (read.resUserData?.length ?? 0) + 1,
+        itemBuilder: (context, index) => index < (read.resUserData?.length ?? 0)
+            ? listItemWidget(read, index, context)
+            : loadingWidget());
+  }
+
+  Widget listItemWidget(PaginationCubit read, int index, BuildContext context) {
+    return GestureDetector(
+      onTap: () {},
+      child: ListTile(
+        leading: const Icon(Icons.arrow_right),
+        title: Text(read.resUserData?[index].author ?? ''),
+        subtitle: Text(read.resUserData?[index].url ?? ''),
+      ),
     );
   }
 
