@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mealdbapp/feature/pagination/view/page.dart';
 
 import '../../../feature/categories_details/view/categories_detail.dart';
 import '../../../feature/food_details/view/food_details.dart';
@@ -15,7 +16,7 @@ class NavigationRoute {
   Route<dynamic> generateRoute(RouteSettings args) {
     switch (args.name) {
       case NavigationConstants.DEFAULT:
-        return normalNavigate(const Tabbar(), NavigationConstants.DEFAULT);
+        return normalNavigate(PaginationScreen(), NavigationConstants.DEFAULT);
 
       case NavigationConstants.CATEGORY_DETAILS:
         return normalNavigate(

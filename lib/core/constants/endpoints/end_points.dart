@@ -1,5 +1,5 @@
 class EndPoints {
-  static const baseUrl = 'https://www.themealdb.com/api/json/v1/1/';
+  static const baseUrl = 'https://picsum.photos/v2/';
 
   static const getCategories = 'categories.php';
   static const getCategoriesDetails = 'filter.php';
@@ -7,4 +7,5 @@ class EndPoints {
   static const getPopulerItems = 'list.php?i=list';
   static const getFoodDetailsWithId = 'lookup.php';
   static const getSearchFood = 'search.php';
+  static const getUserData = 'list';
 }
