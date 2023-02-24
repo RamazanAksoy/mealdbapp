@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mealdbapp/feature/pagination/cubit/pagination_cubit.dart';
@@ -18,7 +19,7 @@ class PaginationSliverScreen extends StatelessWidget {
           return CustomScrollView(
             controller: read.sscontroller,
             slivers: <Widget>[
-              buildSliverAppbar(),
+              buildSliverAppbar(read),
               buildSliverToBoxAdapter(),
               buildSliverList(read),
             ],
@@ -52,15 +53,29 @@ class PaginationSliverScreen extends StatelessWidget {
     );
   }
 
-  SliverAppBar buildSliverAppbar() {
+  SliverAppBar buildSliverAppbar(PaginationCubit read) {
     return SliverAppBar(
       pinned: true,
       snap: false,
       floating: false,
-      expandedHeight: 40.h,
-      flexibleSpace: const FlexibleSpaceBar(
-        title: Text("deneme"),
-        background: FlutterLogo(),
+      expandedHeight: 30.h,
+      backgroundColor: Colors.black87,
+      flexibleSpace: FlexibleSpaceBar(
+        title: const Text("Pagination Sliver List"),
+        background: read.resUserData != null && read.resUserData!.isNotEmpty
+            ? CachedNetworkImage(
+                imageUrl: read.resUserData?[0].downloadUrl ?? '',
+                imageBuilder: (context, imageProvider) => Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              )
+            : Container(),
       ),
     );
   }
@@ -69,7 +84,10 @@ class PaginationSliverScreen extends StatelessWidget {
     return GestureDetector(
       onTap: () {},
       child: ListTile(
-        leading: const Icon(Icons.arrow_right),
+        leading: const Icon(
+          Icons.arrow_right,
+          color: Colors.black87,
+        ),
         title: Text(read.resUserData?[index].author ?? ''),
         subtitle: Text(read.resUserData?[index].url ?? ''),
       ),
@@ -80,7 +98,9 @@ class PaginationSliverScreen extends StatelessWidget {
     return const Center(
         child: Padding(
       padding: EdgeInsets.all(15.0),
-      child: CircularProgressIndicator(),
+      child: CircularProgressIndicator(
+        color: Colors.black87,
+      ),
     ));
   }
 }
