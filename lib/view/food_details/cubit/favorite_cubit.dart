@@ -35,7 +35,7 @@ class FavoriteCubit extends Cubit<FavoriteState> {
   Future favoriButtonClick(int id, Meals? meals) async {
     List<Meals>? mealsListShared = favSharedRepository.favouriteState();
     if (mealsListShared != null) {
-      for (var i = 0; i < mealsListShared!.length; i++) {
+      for (var i = 0; i < mealsListShared.length; i++) {
         if (int.parse(mealsListShared[i].idMeal ?? '0') == id) {
           state.copyWith(isFavorite: true);
           break;

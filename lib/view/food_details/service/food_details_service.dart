@@ -14,7 +14,8 @@ import '../../home/model/random-food/res_food_details.dart';
 class FoodDetailsService {
   ICoreDioNullSafety? networkManager = NetworkManager.instance!.coreDio;
 
-  Future<IResponseModel<ResFoodDetails>?> getResFoodDetailsWithId(int foodid) async {
+  Future<IResponseModel<ResFoodDetails>?> getResFoodDetailsWithId(
+      int foodid) async {
     final response = await networkManager?.send<ResFoodDetails, ResFoodDetails>(
       EndPoints.getFoodDetailsWithId,
       parseModel: ResFoodDetails(),
@@ -30,14 +31,12 @@ class FavSharedRepository {
 
   List<Meals>? favouriteState() {
     List<Meals>? mealsListShared = List.empty(growable: true);
-    if (
-        localeManager.getStringValue('fav') != '' &&
+    if (localeManager.getStringValue('fav') != '' &&
         localeManager.getStringValue('fav') != null &&
-        localeManager.getStringValue('fav') != 'null'
-        ) {
+        localeManager.getStringValue('fav') != 'null') {
       List<dynamic> res = jsonDecode(localeManager.getStringValue('fav'));
       mealsListShared = res.map((e) => Meals.fromJson(e)).toList();
-      print(mealsListShared?.length.toString());
+      print(mealsListShared.length.toString());
     }
     return mealsListShared;
   }
